@@ -1,0 +1,151 @@
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="well well-sm well-light bg-color-greenLight txt-color-white">
+				<h4><i class="fa fa-file-text-o"></i> SKPDKB - Daftar SKPDKB </h4>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- widget grid -->
+	<section id="widget-grid" class="" >
+
+		<!-- row -->
+		<div class="row">
+
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-teal" id="wid-id-Pajak_Restoran" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2>Form Daftar SKPDKB</h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+
+						</div>
+						<!-- end widget edit box -->
+
+						<!-- widget content -->
+						<div class="widget-body no-padding">
+							<form id="form_sumber_pajak" class="smart-form" novalidate="">
+								<fieldset>
+									<header style="margin: -6px;">Buku KAS Umum</header><br>
+									<div class="row">
+										<section class="col col-md-2">Rekening</section>
+										<section class="col col-md-3">
+											<label class="select">
+											<select class="select2" id="TBLREKENING_KODE" name="TBLREKENING_KODE">
+												<option value="">-- Pilih Rekening --</option>
+												<?php foreach ($data['rek'] as $list): ?>
+													<option value="<?php echo $list['TBLREKENING_KODE'] ?>">[<?php echo $list['TBLREKENING_KODE'] ?>] <?php echo $list['TBLREKENING_NAMAREKENING'] ?></option>
+												<?php endforeach ?>
+											</select>
+										</label>
+										</section>
+									</div>
+									<div class="row">
+										<section class="col col-md-2">Masa Pajak</section>
+										<section class="col col-md-3">
+											<label class="select">
+												<select class="select2" id="TBLPENDATAAN_THNPAJAK" name="TBLPENDATAAN_THNPAJAK">
+													<option value="0">== Silahkan Pilih ==</option>
+													<option value="17">2017</option>
+													<option value="16">2016</option>
+													<option value="15">2015</option>
+													<option value="14">2014</option>
+													<option value="13">2013</option>
+													<option value="12">2012</option>
+												</select> <i></i> 
+											</label>
+										</section>
+									</div>
+									<div class="row">
+										<section class="col col-md-2">Tanggal Cetak</section>
+										<section class="col col-md-3">
+											<label class="input"> <i class="icon-append fa fa-calendar"></i>
+												<input type="text" name="tgl_cetak" class="datepicker" data-dateformat="dd-mm-yy" id="tgl_cetak">
+											</label>
+										</section>
+									</div>
+									<div class="row">
+										<section class="col col-md-2"></section>
+										<section class="col col-md-1">
+											<label>THN</label>
+											<label class="input">
+												<input class="form-control" type="text" id="THNKURANGBAYAR" name="THNKURANGBAYAR" autocomplete="off">
+											</label>
+										</section>
+										<section class="col col-md-1">
+											<label>BLN 12</label>
+											<label class="input">
+												<input class="form-control" type="text" id="BLNKURANGBAYAR" name="BLNKURANGBAYAR" autocomplete="off">
+											</label>
+										</section>
+										<section class="col col-md-1">
+											<label>TGL 30</label>
+											<label class="input">
+												<input class="form-control" type="text" id="TGLKURANGBAYAR" name="TGLKURANGBAYAR" autocomplete="off">
+											</label>
+										</section>
+									</div>
+								</fieldset>
+								<footer>
+									<div id="tbl_simpan">
+										<button type="button" class="btn btn-sm btn-primary" onclick="cetak()">
+											<i class="fa fa-search"></i>&nbsp;Cetak
+										</button>
+									</div>
+								</footer>
+							</form>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+	</section>
+	<!-- end widget grid -->
+	<br>
+
+
+
+	<script type="text/javascript">
+		pageSetUp();
+
+		jQuery(document).ready(function($) {
+			reloadDT('dt_basic');
+		});
+
+		function cetak() {
+		var param = jQuery.param(
+		{
+			//rekening: $("#TBLREKENING_KODE").val()
+			 TBLPENDATAAN_THNPAJAK: $("#TBLPENDATAAN_THNPAJAK").val()
+			, TBLDAFTAR_NOPOK: $("#TBLDAFTAR_NOPOK").val()
+			, TBLREKENING_KODE: $("#TBLREKENING_KODE").val()
+			, THNKURANGBAYAR: $("#THNKURANGBAYAR").val()
+			, BLNKURANGBAYAR: $("#BLNKURANGBAYAR").val()
+			, TGLKURANGBAYAR: $("#TGLKURANGBAYAR").val()
+			
+		}
+		);
+		window.open('<?= Yii::app()->getBaseUrl(1); ?>/penetapan/skpdkb_daftar/cetak?' + param);
+	}
+
+	</script>

@@ -1,0 +1,442 @@
+<?php 
+  Yii::import('ext.LokalIndonesia'); 
+  Yii::import('ext.source_qrcode.tpl_class');
+  Yii::import('ext.source_qrcode.qrcode');
+?>
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	color:#365F91;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Header Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Footer Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:.5in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:.5in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.HeaderChar
+	{mso-style-name:"Header Char";
+	mso-style-link:Header;}
+span.FooterChar
+	{mso-style-name:"Footer Char";
+	mso-style-link:Footer;}
+.MsoChpDefault
+	{font-family:"Calibri","sans-serif";}
+ /* Page Definitions */
+ @page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=WordSection1>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=800
+ style='width:800px;border-collapse:collapse;border:none'>
+ <tr style='height:71.5pt'>
+  <td width=276 colspan=4 style='width:207.0pt;border:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:71.5pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>PEMERINTAH KOTA TEGAL<br>
+  DINAS PENDAPATAN, PENGELOLAAN</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>KEUANGAN DAN ASET DAERAH</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>JL. KI GEDE SEBAYU NO. 3<br>
+  Telp. 355137</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>T E G A L</p>
+  </td>
+  <td width=270 colspan=3 style='width:202.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt;height:71.5pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>SURAT KETETAPAN RETRIBUSI DAERAH</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>RETRIBUSI PEMAKAIAN TANAH</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>01-01-<?php echo $data['transaksiketetapan']['tbltransaksiretribusi_tahunpajak']; ?> S/D 31-12-<?php echo $data['transaksiketetapan']['tbltransaksiretribusi_tahunpajak']; ?></p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>TAHUN : <?php echo $data['transaksiketetapan']['tbltransaksiretribusi_tahunpajak']; ?></p>
+  </td>
+  <td width=126 style='width:94.5pt;border:solid black 1.0pt;border-left:none;
+  padding:0in 5.4pt 0in 5.4pt;height:71.5pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>No. Urut :</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'><?php echo $data['transaksiketetapan']['tbltransaksiretribusi_nokohirketetapan'] ?></p>
+  </td>
+ </tr>
+ <tr style='height:71.5pt'>
+  <td width=672 colspan=8 valign=top style='width:7.0in;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:71.5pt'>
+  <table>
+  	<tr>
+		<td width="4in" style="width: 4in">
+		<p class=MsoNormal style='tab-stops:125.1pt;mso-element:frame;mso-element-frame-hspace:
+  9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:
+  margin;mso-element-left:center;mso-element-top:21.5pt;mso-height-rule:exactly'>NAMA WR&nbsp;&nbsp;&nbsp;: <?php echo $data['transaksiketetapan']['tblsubyek_nama']; ?>
+</span></p>
+        <p class=MsoNormal style='tab-stops:120.6pt 125.1pt 282.6pt;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  page;mso-element-anchor-horizontal:margin;mso-element-left:center;mso-element-top:
+  21.5pt;mso-height-rule:exactly'>ALAMAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span style='mso-tab-count:2'><?php echo $data['transaksiketetapan']['tblsubyek_alamat']; ?></span>
+    <o:p></o:p></span></p>
+  <p class=MsoNormal style='tab-stops:125.1pt;mso-element:frame;mso-element-frame-hspace:
+  9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:
+  margin;mso-element-left:center;mso-element-top:21.5pt;mso-height-rule:exactly'>NPWRD<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>:
+      <o:p><?php echo $data['transaksiketetapan']['tblsubyek_npwrd']; ?></o:p></span></p>
+		</td>
+		<td>
+		<p class=MsoNormal style='tab-stops:125.1pt;mso-element:frame;mso-element-frame-hspace:
+  9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:
+  margin;mso-element-left:center;mso-element-top:21.5pt;mso-height-rule:exactly'>NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <?php echo $data['transaksiketetapan']['tblobyek_npwpd']; ?>
+            <o:p></o:p>
+		</span></p>
+  <p class=MsoNormal style='tab-stops:120.6pt 125.1pt 282.6pt;mso-element:frame;
+  mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:
+  page;mso-element-anchor-horizontal:margin;mso-element-left:center;mso-element-top:
+  21.5pt;mso-height-rule:exactly'>NAMA OBYEK <span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;</span> : <span style='mso-tab-count:2'><?php echo $data['transaksiketetapan']['tblobyek_nama']; ?></span></span></p>
+  <p class=MsoNormal style='tab-stops:125.1pt;mso-element:frame;mso-element-frame-hspace:
+  9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:
+  margin;mso-element-left:center;mso-element-top:21.5pt;mso-height-rule:exactly'>ALAMAT OBYEK<span style='mso-tab-count:1'>&nbsp;&nbsp;</span>:
+      <o:p><?php echo $data['transaksiketetapan']['tblobyek_alamat']; ?></o:p></span></p>
+		</td>
+	</tr>
+  </table>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>                             <!--  NPWPD          :  --><!-- <?php echo $data['transaksiketetapan']['tblsubyek_npwpd']; ?> </p> -->
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>       Tanggal Jatuh Tempo      : <?php echo LokalIndonesia::TanggalUmum($data['transaksiketetapan']['tbltransaksiretribusi_tgljatuhtempo']); ?></p>
+  </td>
+ </tr>
+ <tr style='height:21.55pt'>
+  <td width=42 style='width:31.5pt;border:solid black 1.0pt;border-top:none;
+  padding:0in 5.4pt 0in 5.4pt;height:21.55pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>No.</p>
+  </td>
+  <td width=156 style='width:117.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;padding:0in 5.4pt 0in 5.4pt;
+  height:21.55pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Kode Rekening</p>
+  </td>
+  <td width=283 colspan=4 style='width:212.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:21.55pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Jenis Retribusi Daerah</p>
+  </td>
+  <td width=191 colspan=2 style='width:142.9pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:21.55pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Jumlah</p>
+  </td>
+ </tr>
+ <tr style='height:63.4pt'>
+  <td width=42 valign=top style='width:31.5pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:63.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>1</p>
+  </td>
+  <td width=156 valign=top style='width:117.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:63.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'><?php echo $data['transaksiketetapan']['tblmasterrekening_kode']; ?></p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>&nbsp;</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'><?php //echo $data['transaksiketetapan']['tblmasterrekening_nama']; ?>Retribusi Pemakaian Kekayaan Daerah</p>
+  </td>
+  <td width=283 colspan=4 valign=top style='width:212.6pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:63.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'><?php $reksub = MasterRekening::model()->find('tblmasterrekening_kode=:kode', array(':kode'=>$data['transaksiketetapan']['tblrekeningretribusi_kode'])); echo $reksub ? $reksub['tblmasterrekening_nama'] : "" ; ?></p>
+  <?php if($data['transaksiketetapan']['tblrekeningretribusi_kode']=='412020103'): ?>
+  <?php $dtl_data_pemakaiantanah = Yii::app()->db->createCommand()->select()->from('tblretribusitanah')->where('tbltransaksiretribusi_id=:id', array(':id'=>$data['transaksiketetapan']['tbltransaksiretribusi_id']))->queryRow(); ?>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Luas: <?php echo $dtl_data_pemakaiantanah ? $dtl_data_pemakaiantanah['tblretribusitanah_luas'] : "" ; ?> m2</p>
+  <?php endif; ?>
+  </td>
+  <td width=191 colspan=2 valign=top style='width:142.9pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:63.4pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'><?php echo number_format($data['transaksiketetapan']['tbltransaksiretribusi_pajakketetapan'],0,',','.') ?></p>
+  </td>
+ </tr>
+ <tr style='height:17.05pt'>
+  <td width=198 colspan=2 valign=top style='width:148.5pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:17.05pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>&nbsp;</p>
+  </td>
+  <td width=283 colspan=4 valign=top style='width:212.6pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:17.05pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Jumlah Ketetapan Pokok Retribusi</p>
+  </td>
+  <td width=191 colspan=2 valign=top style='width:142.9pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:17.05pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'><?php echo number_format($data['transaksiketetapan']['tbltransaksiretribusi_pajakketetapan'],0,',','.') ?></p>
+  </td>
+ </tr>
+ <tr style='height:17.05pt'>
+  <td width=672 colspan=8 valign=top style='width:7.0in;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:17.05pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Dengan Huruf : <?php echo LokalIndonesia::terbilangangka($data['transaksiketetapan']['tbltransaksiretribusi_pajakketetapan']); ?> rupiah</p>
+  </td>
+ </tr>
+ <tr style='height:17.05pt'>
+  <td width=672 colspan=8 valign=top style='width:7.0in;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:17.05pt'>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>P E R H A T I A N :</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>&nbsp;</p>
+  <p class=MsoListParagraphCxSpFirst style='margin-bottom:0in;margin-bottom:
+  .0001pt;text-indent:-.25in;line-height:normal'><span style='font-size:12.0pt'>1.<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:12.0pt'>Harap penyetoran dilakukan pada Kas Daerah atau
+  tempat lain yang ditunjuk (BKP,PBKP) dengan menggunakan Surat Ketetapan
+  Retribusi Daerah (SKRD)<br>
+  <br>
+  </span></p>
+  <p class=MsoListParagraphCxSpLast style='margin-bottom:0in;margin-bottom:
+  .0001pt;text-indent:-.25in;line-height:normal'><span style='font-size:12.0pt'>2.<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:12.0pt'>Apabila SKRD ini tidak atau kurang dibayar lewat
+  waktu paling lama 1 bulan setelah SKRD diterima atau lewat tanggal jatuh tempo dikenakan sanksi
+  administrasi berupa biaya tambahan 2% tiap bulan.<br>
+  <br>
+  </span></p>
+  <!-- <p class=MsoListParagraphCxSpLast style='margin-bottom:0in;margin-bottom:
+  .0001pt;text-indent:-.25in;line-height:normal'><span style='font-size:12.0pt'>2.<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:12.0pt'>Apabila SKRD ini tidak atau kurang dibayar lewat
+  waktu paling lama 1 bulan setelah SKRD diterima atau lewat tanggal <br>
+  <br>
+  </span></p> -->
+  </td>
+ </tr>
+ <tr style='height:168.25pt'>
+  <td width=672 colspan=8 valign=top style='width:7.0in;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:168.25pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>T E G A L, <?php echo LokalIndonesia::TanggalUmum(date('Y-m-d')); ?><br>
+  a.n. KEPALA DPPKAD KOTA TEGAL</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>KABID PENDATAAN PENETAPAN DAN PENAGIHAN</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>                                                                              
+  Ub. Ka. Sie. Penetapan<br>
+  <br>
+  Tgl.terima             : <?php echo LokalIndonesia::TanggalUmum($data['transaksiketetapan']['tbltransaksiretribusi_tglentrisptpd']); ?></p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Nama WP/WR     : <?php echo $data['transaksiketetapan']['tblsubyek_nama']; ?></p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Parap WP/WR     :                                                                                                         
+  <!-- NPWPD : <?php echo $data['transaksiketetapan']['tblsubyek_npwpd']; ?></p> -->
+  <!-- <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>                                                                                        
+                                                   NO.REG: <?php echo $data['transaksiketetapan']['tbltransaksiretribusi_noreg']; ?></p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>                                                                                                                  
+  *** JUML. BAY = <?php echo number_format($data['transaksiketetapan']['tbltransaksiretribusi_pajakketetapan'],0,',','.') ?></p>
+  <?php  
+   
+      $qr = new qrcode();
+      $qr->text($data['transaksiketetapan']['tbltransaksiretribusi_kodebook']);
+  ?> -->
+  <!-- <img style="height:60px;margin-left: 80px;" src="<!--?php echo $qr->get_link(); ?>"> -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>                                                     
+  YUSABBIHUL AKBAR S.Kom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+   <!-- <?php echo date('d-m-Y',strtotime($data['transaksiketetapan']['tbltransaksiretribusi_tglketetapan'])) ?>--><br>
+  ----------------------------------------</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>NIP. 19771221 200212 1 006</p>
+  </td>
+ </tr>
+ <tr style='height:69.25pt'>
+  <td width=224 colspan=3 valign=top style='width:168.0pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt;height:69.25pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Penyetor</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>___________________</p>
+  </td>
+  <td width=224 colspan=2 valign=top style='width:168.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:69.25pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Diterima Oleh,</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Petugas Tempat Pembayaran<br>
+  Tanggal                        :</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Tanda Tangan           :</p>
+  <p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal'>Nama Terang            :</p>
+  </td>
+  <td width=224 colspan=3 valign=top style='width:168.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;height:69.25pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Ruang untuk Teraan</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>Kas Register</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  <p class=MsoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+  text-align:center;line-height:normal'>&nbsp;</p>
+  </td>
+ </tr>
+ <tr height=0>
+  <td width=42 style='border:none'></td>
+  <td width=156 style='border:none'></td>
+  <td width=26 style='border:none'></td>
+  <td width=52 style='border:none'></td>
+  <td width=172 style='border:none'></td>
+  <td width=33 style='border:none'></td>
+  <td width=65 style='border:none'></td>
+  <td width=126 style='border:none'></td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

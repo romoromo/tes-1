@@ -1,0 +1,199 @@
+<?php 
+	define('ASSETS_URL', Yii::app()->
+theme->baseUrl); ?>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="well well-sm well-light bg-color-greenLight txt-color-white">
+			<h4><i class="fa fa-file-text-o"></i> Laporan Tunggakan SKPD</h4>
+		</div>
+	</div>
+</div>
+<section id="widget-grid" class="">
+<div class="row">
+	<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+	<div class="jarviswidget jarviswidget-color-teal jarviswidget-sortable" id="widget_pencariandatapajak" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-togglebutton="false" role="widget" style="">
+		<header role="heading">
+		<span class="widget-icon"><i class="fa fa-table"></i></span>
+		<h2>Pencarian Data</h2>
+		<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+		<div role="content">
+			<div class="jarviswidget-editbox">
+			</div>
+			<div class="widget-body">
+				<form id="form_sumber_pajak" class="smart-form" novalidate="">
+					<fieldset>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+								Masa Pajak
+							</p>
+							</section>
+							<section class="col col-md-4">
+							<label class="input">
+							<input class="form-control" type="text" id="nomor_pajak" name="nomor_pajak" autocomplete="off" maxlength="2">
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+							</p>
+							</section>
+							<section class="col col-md-4">
+							<label class="select">
+							<select class="select2" id="jenis_penyetoran" name="jenis_penyetoran">
+								<option value="hiburan">PAJAK HIBURAN</option>
+								<option value="parkir">PAJAK REKLAME</option>
+								<option value="parkir">PAJAK AIR TANAH</option>
+							</select>
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+							</p>
+							</section>
+							<section class="col col-md-4">
+							<label class="select">
+							<select class="select2" id="jenis_penyetoran" name="jenis_penyetoran">
+								<option value="">KAIN</option>
+								<option value="">MEGATRON / VIDIOTRON ROKOK</option>
+								<option value="">REKLAME (SEKATEN)</option>
+								<option value="">PAPAN / BILLBOARD</option>
+								<option value="">TRIVISION</option>
+								<option value="">CAHAYA</option>
+								<option value="">MELEKAT (S/D 1/4 M2)</option>
+								<option value="">MELEKAT (> 1/4 S/D 1/2 M2)</option>
+								<option value="">SELEBARAN (> 1/4 S/D 1/2 M2)</option>
+								<option value="">BERJALAN PKTB MINGGUAN</option>
+								<option value="">BERJALAN PKTB SEMESTERAN</option>
+								<option value="">BERJALAN PKTB TAHUNAN</option>
+								<option value="">UDARA</option>
+								<option value="">SLIDE DENGAN SUARA</option>
+								<option value="">PERAGAAN</option>
+								<option value="">KAIN / HARI</option>
+								<option value="">KAIN / HARI (DILUAR PANGGUNG) </option>
+								<option value="">UDARA / HARI </option>
+								<option value="">MURAL SETARA BOARD </option>
+								<option value="">SEKATEN (UDARA / HARI) </option>
+								<option value="">KEND. TAK.BERMOTOR TAHUNAN </option>
+								<option value="">KEND. TAK.BERMOTOR SEMESTER </option>
+								<option value="">KEND. TAK.BERMOTOR BULAN </option>
+								<option value="">FILM/SLIDE BERSUARA </option>
+								<option value="">BERJALAN PKTB BULANAN </option>
+								<option value="">SUARA </option>
+								<option value="">TUNGGAKAN PAJAK REKLAME </option>
+								<option value="">MEGATRON (SEKATEN) </option>
+								<option value="">DYNAMIC W / TRIVISION NAMA USAHA </option>
+								<option value="">NEONBOX/CAHAYA NS NON ROKOK </option>
+								<option value="">NEONBOX/CAHAYA NS NAMA USAHA </option>
+								<option value="">BILLBOARD TANPA CAHAYA NON ROKOK </option>
+								<option value="">SPANDUK ROKOK </option>
+								<option value="">SPANDUK NAMA USAHA </option>
+								<option value="">UMBUL-UMBUL/RONTEK NON ROKOK </option>
+								<option value="">SELEBARAN </option>
+								<option value="">BERJALAN TAHUNAN </option>
+								<option value="">NEONBOX NON ROKOK (HARIAN)</option>
+								<option value="">BILLBOARD TANPA LAMP NAMA USAHA</option>
+								<option value="">BALIHO NAMA USAHA</option>
+								<option value="">BALIHO ROKOK</option>
+								<option value="">FILM/SLIDE</option>
+								<option value="">PAJAK REKLAME</option>
+								<option value="">MEGATRON/VIDEOTRON NAMA USAHA</option>
+								<option value="">BANDO JALAN ROKOK</option>
+								<option value="">BANDO JALAN NON ROKOK</option>
+								<option value="">BILLBOARD TANPA LAMPU NON ROKOK</option>
+							</select>
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+								Kecamatan
+							</p>
+							</section>
+							<section class="col col-md-4">
+							<label class="select">
+							<select class="select2" id="jenis_penyetoran" name="jenis_penyetoran">
+								<option value="">=== Pilih Kecamatan ====</option>
+								<option value="">KEC. CANGKRINGAN</option>
+								<option value="">KEC. BERBAH</option>
+								<option value="">KEC. GAMPING</option>
+								<option value="">KEC. KALASAN</option>
+								<option value="">KEC. GODEAN</option>
+								<option value="">KEC. MOYUDAN</option>
+								<option value="">KEC. MINGGIR</option>
+								<option value="">KEC. MLATI</option>
+								<option value="">KEC. NGAGLIK</option>
+								<option value="">KEC. DEPOK</option>
+								<option value="">KEC. NGEMPLAK</option>
+								<option value="">KEC. MERGANGSAN</option>
+								<option value="">KEC. TEMPEL</option>
+								<option value="">KEC. PRAMBANAN YOGYAKARTA</option>
+								<option value="">LUAR KOTA</option>
+							</select>
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+								Kd Jalan
+							</p>
+							</section>
+							<section class="col col-md-4">
+							<label class="select">
+							<select class="select2" id="jenis_penyetoran" name="jenis_penyetoran">
+								<option value="">=== Pilih Kecamatan ====</option>
+								<option value="">JL. PURWANGGAN YK</option>
+								<option value="">JL. DAGEN YK</option>
+								<option value="">JL. TRIKORA YK</option>
+								<option value="">JL. PANDEAN YK</option>
+								<option value="">JL. MANGKUYUDAN YK</option>
+								<option value="">JL. PERWAKILAN YK</option>
+								<option value="">JL. SURYOWIJAYAN YK</option>
+								<option value="">JL. ROTOWIJAYAN YK</option>
+								<option value="">JL. MASJID YK</option>
+								<option value="">JL. JOGONEGARAN YK</option>
+								<option value="">JL. PABRINGAN YK</option>
+							</select>
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							<p>
+								Cara Penetapan
+							</p>
+							</section>
+							<section class="col col-md-3">
+							<label class="input">
+							<input type="text" name="cara_penetapan" id="cara_penetapan">
+							</label>
+							</section>
+						</div>
+						<div class="row">
+							<section class="col col-md-2">
+							</section>
+							<section class="col col-md-4">
+							<button type="button" class="btn btn-primary btn-sm" onclick="cetak()">Cetak</button>
+							</section>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	</article>
+</div>
+<!-- end row -->
+</section>
+<script type="text/javascript">
+	pageSetUp();
+	window.APP_URL = "<?php echo $data['URL_APP']; ?>";
+	function cetak () {
+	window.open(window.APP_URL+'/penagihan/Daftar_tunggakan/cetak');
+}
+</script>

@@ -1,0 +1,35 @@
+<?php defined('APP') or die('direct access not allowed!');  ?>
+<?php //var_dump($data['register']); ?>
+<html>
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;
+}
+.style6 {font-size: 14px}
+.style7 {font-size: 18px; font-family: Arial, Helvetica, sans-serif;}
+-->
+</style>
+	<?php /*?><head>
+		<title>Cetak Register <?= $data['register']['tblobyek_nama'] ?>  - <?= $data['register']['tblsetoran_registersetor'] ?> </title>
+	</head><?php */?>
+	<body>
+		<div style="font-size: 9pt; position: /* bottom: 222px; */right: 1033px;">
+			<p class="style7"><br>
+			  <span class="style6">NPWPD   : 
+	          <?= $data['register']['tblobyek_npwpd'] ?> 
+              <br>
+			NO.REG  : 
+			<?= $data['register']['tblsetoran_nomorsetor'] ?> 
+			<br>
+			*** JML. BAY = RP. 
+			<?= LokalIndonesia::ribuan( $data['register']['tblsetoran_totalsetor']-$data['register']['tblsetoran_bungasetor'], false, 0 ) ?> 
+			<br>	
+			<?= strtotime($data['register']['tblsetoran_tglsetor']) ? date( 'd-M-Y', strtotime($data['register']['tblsetoran_tglsetor']) ) : '' ?>
+			  </span><br>
+			</p>
+			<pre class="style1">&nbsp;</pre>
+	</div>
+	</body>
+</html>

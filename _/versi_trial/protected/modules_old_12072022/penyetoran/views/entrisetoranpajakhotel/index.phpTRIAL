@@ -1,0 +1,326 @@
+<?php 
+define('ASSETS_URL', Yii::app()->theme->baseUrl);
+?>
+
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="well well-sm well-light bg-color-greenLight txt-color-white">
+			<h4><i class="fa fa-file-text-o"></i>  Entri Setoran Pajak Hotel</h4>
+		</div>
+	</div>
+</div>
+
+
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-teal" id="wid-id-validasi_penyetoran" 
+			data-widget-editbutton="false"
+			data-widget-deletebutton="false"
+			data-widget-custombutton="false"
+			data-widget-fullscreenbutton="false"
+			data-widget-colorbutton="false"	
+			data-widget-togglebutton="false"			
+			>
+			<header>
+				<span class="widget-icon"> <i class="fa fa-search"></i> </span>
+				<h2>Validasi Penyetoran</h2>
+			</header>
+			<div>
+				<div class="jarviswidget-editbox">
+				</div>
+				<div class="widget-body no-padding">
+
+					<form action="" id="form_sumber_pajak" class="smart-form" novalidate>
+						<fieldset>
+
+							
+
+							<div class="row">
+								<section class="col col-md-1">
+									Tahun
+								</section>
+								<section class="col col-md-2">
+									<label class="input">
+										<input class="input-sm" value="<?php echo date('Y'); ?>" type="number" id="tahun" name="tahun">
+									</label>
+								</section>
+								<section class="col col-md-1">
+									Bulan
+								</section>
+								<section class="col col-md-2">
+									<label class="select">
+										<select class="select2" id="bln" name="bln">
+											<option value="">-- Bulan --</option>
+											<option value="1">Januari</option>
+											<option value="2">Februari</option>
+											<option value="3">Maret</option>
+											<option value="4">April</option>
+											<option value="5">Mei</option>
+											<option value="6">Juni</option>
+											<option value="7">Juli</option>
+											<option value="8">Agustus</option>
+											<option value="9">September</option>
+											<option value="10">Oktober</option>
+											<option value="11">November</option>
+											<option value="12">Desember</option>
+										</select>
+										<!-- <i></i> -->
+									</label>
+								</section>
+								<section class="col col-md-1">
+									Tanggal
+								</section>
+								<section class="col col-md-1">
+									<label class="checkbox pull-right">
+										<input type="checkbox" name="is_tanggal" id="is_tanggal">
+										<i></i>
+									</label>
+								</section>
+								<section class="col col-md-2">
+									<label class="input">
+										<input class="input-sm" type="number" id="tgl" name="tgl">
+									</label>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-md-1">
+									<p>Jenis Setoran </p>
+								</section>
+								<section class="col col-md-2">
+									<label class="select">
+										<select name="jenis_setoran" id="jenis_setoran" class="select2">
+											<option disabled="">== Silahkan Pilih ==</option>
+											<option selected value="SPTPD">SPTPD</option>
+											<option value="STPD">STPD</option>
+											<option value="SKPDKB">SKPDKB</option>
+										</select>
+									</label>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-md-1">
+									<p>Nomor Pokok</p>
+								</section>
+								<section class="col col-md-4">
+									<label class="input">
+										<input class="input-sm" type="text" id="nopok" name="nopok">
+									</label>
+								</section>
+								<section class="col col-md-3">
+									<a class="btn btn-sm btn-primary" onclick="cari()">
+										Enter <i class="fa fa-forward"></i>
+									</a>
+								</section>
+							</div>
+							<header></header><br>
+							<div id="id_respencarian">
+								<div class="row">
+									<section class="col col-md-1">
+										<p>Nama</p>
+									</section>
+									<section class="col col-md-2">
+										<span id="TBLDAFTAR_BADANUSAHANAMA"></span>
+									</section>
+									<section class="col col-md-1">
+										<p>No Rekening</p>
+									</section>
+									<section class="col col-md-2">
+										<span id="NOMOR_REKENING"></span>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-1">
+										<p>Alamat</p>
+									</section>
+									<section class="col col-md-2">
+										<span id="TBLDAFTAR_BADANUSAHAALAMAT"></span>
+									</section>
+									<section class="col col-md-1">
+										<p>Jenis Pajak</p>
+									</section>
+									<section class="col col-md-2">
+										<span id="TREKENING_NAMA"></span>
+									</section>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<header>Ketetapan Pajak</header>
+										<div  style="padding: 3%;">
+											<div class="row">
+												<section class="col col-md-2">Tanggal SPT</section>
+												<section class="col col-md-4">
+													<label class="input"> <i class="icon-append fa fa-calendar"></i>
+														<input readonly="" style="background: #eee;" type="text" name="<?php echo $this->namatabel; ?>_TGLSPTPD" class="datepicker form-control" data-dateformat="dd-mm-yy" id="<?php echo $this->namatabel; ?>_TGLSPTPD">
+													</label>
+												</section>
+												<section class="col col-md-1">Batas</section>
+												<section class="col col-md-4">
+													<label class="input"> <i class="icon-append fa fa-calendar"></i>
+														<input readonly="" style="background: #eee;" type="text" name="<?php echo $this->namatabel; ?>_TGLBATASSPTPD" class="datepicker form-control" data-dateformat="dd-mm-yy" id="<?php echo $this->namatabel; ?>_TGLBATASSPTPD">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Nomor Kohir</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" id="<?php echo $this->namatabel; ?>_URUTSKPD" readonly="" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Bunga</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" id="<?php echo $this->namatabel; ?>_BUNGASPTPD" readonly="" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Ketetapan</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" id="<?php echo $this->namatabel; ?>_PAJAK" readonly="" type="text">
+													</label>
+												</section>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<header>Tagihan Pajak</header>
+										<div  style="padding: 3%;">
+											<div class="row">
+												<section class="col col-md-3">Tanggal STPD</section>
+												<section class="col col-md-4">
+													<label class="input"> <i class="icon-append fa fa-calendar"></i>
+														<input readonly="" type="text" style="background: #eee;" name="request" class="datepicker form-control" data-dateformat="dd-mm-yy" id="<?php echo $this->namatabel; ?>_TGLSURATTAGIHAN">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Nomor STPD</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" readonly="" type="text" id="<?php echo $this->namatabel; ?>_NOSURATTAGIHAN">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Bunga</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" readonly="" id="<?php echo $this->namatabel; ?>_BUNGATAGIHAN" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Denda</section>
+												<section class="col col-md-9">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" readonly="" type="text" id="<?php echo $this->namatabel; ?>_DENDATAGIHAN">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Tagihan Pajak</section>
+												<section class="col col-md-9">
+													<label class="input">	
+														<input class="form-control" style="background: #eee;" readonly="" type="text" id="<?php echo $this->namatabel; ?>_RUPIAHTAGIHAN">
+													</label>
+												</section>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<header>Setoran Pajak</header>
+										<div  style="padding: 3%;">
+											<div class="row">
+												<section class="col col-md-2">Tempat Setor</section>
+												<section class="col col-md-4">
+													<label class="input">
+														<input type="text" style="background: #eee;" class="form-control" readonly="" id="<?php echo $this->namatabel; ?>_TIPESETOR">
+													</label>
+												</section>
+												<section class="col col-md-6">B=BKP, K=KAS DAERAH</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Tanggal Setor</section>
+												<section class="col col-md-4">
+													<label class="input">
+														<input class="form-control" id="<?php echo $this->namatabel; ?>_TANGGALSETOR" readonly="" style="background: #eee;" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Bunga</section>
+												<section class="col col-md-10">
+													<label class="input">	
+														<input class="form-control" style="background: #eee;" readonly="" id="bungasetor"  type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Denda</section>
+												<section class="col col-md-10">
+													<label class="input" >
+														<input class="form-control format-rupiah-desimal" style="background: #eee;" readonly="" id="dendasetor" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Pajak</section>
+												<section class="col col-md-10">
+													<label class="input">
+														<input class="form-control" style="background: #eee;" readonly="" id="pajaksetor" type="text">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-2">Total Setoran</section>
+												<section class="col col-md-10">
+													<label class="input">
+														<input style="background: #eee;" readonly="" class="form-control format-rupiah-desimal" id="totalsetor" type="text">
+													</label>
+												</section>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<header>Tagihan Kekurangan Pajak</header>
+										<div  style="padding: 3%;">
+											<div class="row">
+												<section class="col col-md-3">Tanggal SKPDKB</section>
+												<section class="col col-md-5">
+													<label class="input"> <i class="icon-append fa fa-calendar"></i>
+														<input style="background: #eee;" readonly="" type="text" name="request" class="datepicker form-control" data-dateformat="dd-mm-yy" id="<?php echo $this->namatabel; ?>_TGLKURANGBAYAR">
+													</label>
+												</section>
+												</div>
+											<div class="row">
+												<section class="col col-md-3">Tanggal Batas SKPDKB</section>
+												<section class="col col-md-5">
+													<label class="input"> <i class="icon-append fa fa-calendar"></i>
+														<input style="background: #eee;" readonly="" type="text" name="request" class="datepicker form-control" data-dateformat="dd-mm-yy" id="<?php echo $this->namatabel; ?>_TGLBTSKRGBAYAR">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Nomor SKPDKB</section>
+												<section class="col col-md-9">
+													<label class="input-sm">	
+														<input style="background: #eee;" class="form-control" readonly="" type="text" id="<?php echo $this->namatabel; ?>_REGKURANGBAYAR">
+													</label>
+												</section>
+											</div>
+											<div class="row">
+												<section class="col col-md-3">Pokok LHP</section>
+												<section class="col col-md-9">
+													<label class="inp

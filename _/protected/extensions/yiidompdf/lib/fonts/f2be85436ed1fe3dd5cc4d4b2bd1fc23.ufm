@@ -1,0 +1,164 @@
+StartFontMetrics 4.1
+Notice Converted by PHP-font-lib
+Comment https://github.com/PhenX/php-font-lib
+EncodingScheme FontSpecific
+Copyright SIL Open Font License 1.1
+FontName FontAwesome
+FontSubfamily Regular
+UniqueID FONTLAB:OTFEXPORT
+FullName FontAwesome Regular
+Version Version 3.2.0 2013
+PostScriptName FontAwesome
+Trademark Please refer to the Copyright section for the font trademark attribution notices.
+Manufacturer Fort Awesome
+Designer Dave Gandy
+FontVendorURL http://fontawesome.io
+Weight Medium
+ItalicAngle 0
+IsFixedPitch false
+UnderlineThickness 50
+UnderlinePosition -75
+FontHeightOffset 0
+Ascender 857
+Descender -162
+FontBBox -1 -143 1071 857
+StartCharMetrics 406
+U 32 ; WX 250 ; N space ; G 3
+U 160 ; WX 250 ; N uni00A0 ; G 4
+U 168 ; WX 1000 ; N dieresis ; G 5
+U 169 ; WX 1000 ; N copyright ; G 6
+U 174 ; WX 1000 ; N registered ; G 7
+U 180 ; WX 1000 ; N acute ; G 8
+U 198 ; WX 1000 ; N AE ; G 9
+U 8192 ; WX 429 ; N uni2000 ; G 10
+U 8193 ; WX 857 ; N uni2001 ; G 11
+U 8194 ; WX 429 ; N uni2002 ; G 12
+U 8195 ; WX 857 ; N uni2003 ; G 13
+U 8196 ; WX 286 ; N uni2004 ; G 14
+U 8197 ; WX 214 ; N uni2005 ; G 15
+U 8198 ; WX 143 ; N uni2006 ; G 16
+U 8199 ; WX 143 ; N uni2007 ; G 17
+U 8200 ; WX 107 ; N uni2008 ; G 18
+U 8201 ; WX 171 ; N uni2009 ; G 19
+U 8202 ; WX 47 ; N uni200A ; G 20
+U 8239 ; WX 171 ; N uni202F ; G 21
+U 8287 ; WX 214 ; N uni205F ; G 22
+U 8482 ; WX 1000 ; N trademark ; G 23
+U 8734 ; WX 1000 ; N infinity ; G 24
+U 8800 ; WX 1000 ; N notequal ; G 25
+U 57344 ; WX 279 ; N uniE000 ; G 26
+U 61440 ; WX 1000 ; N glass ; G 27
+U 61441 ; WX 857 ; N music ; G 28
+U 61442 ; WX 929 ; N search ; G 29
+U 61443 ; WX 1000 ; N envelope ; G 30
+U 61444 ; WX 1000 ; N heart ; G 31
+U 61445 ; WX 929 ; N star ; G 32
+U 61446 ; WX 929 ; N star_empty ; G 33
+U 61447 ; WX 786 ; N user ; G 34
+U 61448 ; WX 1071 ; N film ; G 35
+U 61449 ; WX 929 ; N th_large ; G 36
+U 61450 ; WX 1000 ; N th ; G 37
+U 61451 ; WX 1000 ; N th_list ; G 38
+U 61452 ; WX 1000 ; N ok ; G 39
+U 61453 ; WX 786 ; N remove ; G 40
+U 61454 ; WX 929 ; N zoom_in ; G 41
+U 61456 ; WX 929 ; N zoom_out ; G 42
+U 61457 ; WX 857 ; N off ; G 43
+U 61458 ; WX 1000 ; N signal ; G 44
+U 61459 ; WX 857 ; N cog ; G 45
+U 61460 ; WX 786 ; N trash ; G 46
+U 61461 ; WX 929 ; N home ; G 47
+U 61462 ; WX 714 ; N file_alt ; G 48
+U 61463 ; WX 857 ; N time ; G 49
+U 61464 ; WX 1071 ; N road ; G 50
+U 61465 ; WX 929 ; N download_alt ; G 51
+U 61466 ; WX 857 ; N download ; G 52
+U 61467 ; WX 857 ; N upload ; G 53
+U 61468 ; WX 857 ; N inbox ; G 54
+U 61469 ; WX 857 ; N play_circle ; G 55
+U 61470 ; WX 857 ; N repeat ; G 56
+U 61473 ; WX 857 ; N refresh ; G 57
+U 61474 ; WX 1000 ; N list_alt ; G 58
+U 61475 ; WX 643 ; N lock ; G 59
+U 61476 ; WX 1000 ; N flag ; G 60
+U 61477 ; WX 929 ; N headphones ; G 61
+U 61478 ; WX 429 ; N volume_off ; G 62
+U 61479 ; WX 643 ; N volume_down ; G 63
+U 61480 ; WX 929 ; N volume_up ; G 64
+U 61481 ; WX 786 ; N qrcode ; G 65
+U 61482 ; WX 1000 ; N barcode ; G 66
+U 61483 ; WX 857 ; N tag ; G 67
+U 61484 ; WX 1071 ; N tags ; G 68
+U 61485 ; WX 929 ; N book ; G 69
+U 61486 ; WX 714 ; N bookmark ; G 70
+U 61487 ; WX 929 ; N print ; G 71
+U 61488 ; WX 1071 ; N camera ; G 72
+U 61489 ; WX 929 ; N font ; G 73
+U 61490 ; WX 786 ; N bold ; G 74
+U 61491 ; WX 571 ; N italic ; G 75
+U 61492 ; WX 1000 ; N text_height ; G 76
+U 61493 ; WX 857 ; N text_width ; G 77
+U 61494 ; WX 1000 ; N align_left ; G 78
+U 61495 ; WX 1000 ; N align_center ; G 79
+U 61496 ; WX 1000 ; N align_right ; G 80
+U 61497 ; WX 1000 ; N align_justify ; G 81
+U 61498 ; WX 1000 ; N list ; G 82
+U 61499 ; WX 1000 ; N indent_left ; G 83
+U 61500 ; WX 1000 ; N indent_right ; G 84
+U 61501 ; WX 1000 ; N facetime_video ; G 85
+U 61502 ; WX 1071 ; N picture ; G 86
+U 61504 ; WX 857 ; N pencil ; G 87
+U 61505 ; WX 571 ; N map_marker ; G 88
+U 61506 ; WX 857 ; N adjust ; G 89
+U 61507 ; WX 571 ; N tint ; G 90
+U 61508 ; WX 1000 ; N edit ; G 91
+U 61509 ; WX 929 ; N share ; G 92
+U 61510 ; WX 929 ; N check ; G 93
+U 61511 ; WX 1000 ; N move ; G 94
+U 61512 ; WX 571 ; N step_backward ; G 95
+U 61513 ; WX 1000 ; N fast_backward ; G 96
+U 61514 ; WX 929 ; N backward ; G 97
+U 61515 ; WX 786 ; N play ; G 98
+U 61516 ; WX 857 ; N pause ; G 99
+U 61517 ; WX 857 ; N stop ; G 100
+U 61518 ; WX 929 ; N forward ; G 101
+U 61520 ; WX 1000 ; N fast_forward ; G 102
+U 61521 ; WX 571 ; N step_forward ; G 103
+U 61522 ; WX 858 ; N eject ; G 104
+U 61523 ; WX 643 ; N chevron_left ; G 105
+U 61524 ; WX 643 ; N chevron_right ; G 106
+U 61525 ; WX 857 ; N plus_sign ; G 107
+U 61526 ; WX 857 ; N minus_sign ; G 108
+U 61527 ; WX 857 ; N remove_sign ; G 109
+U 61528 ; WX 857 ; N ok_sign ; G 110
+U 61529 ; WX 857 ; N question_sign ; G 111
+U 61530 ; WX 857 ; N info_sign ; G 112
+U 61531 ; WX 857 ; N screenshot ; G 113
+U 61532 ; WX 857 ; N remove_circle ; G 114
+U 61533 ; WX 857 ; N ok_circle ; G 115
+U 61534 ; WX 857 ; N ban_circle ; G 116
+U 61536 ; WX 857 ; N arrow_left ; G 117
+U 61537 ; WX 857 ; N arrow_right ; G 118
+U 61538 ; WX 929 ; N arrow_up ; G 119
+U 61539 ; WX 929 ; N arrow_down ; G 120
+U 61540 ; WX 1000 ; N share_alt ; G 121
+U 61541 ; WX 857 ; N resize_full ; G 122
+U 61542 ; WX 857 ; N resize_small ; G 123
+U 61543 ; WX 786 ; N plus ; G 124
+U 61544 ; WX 786 ; N minus ; G 125
+U 61545 ; WX 929 ; N asterisk ; G 126
+U 61546 ; WX 857 ; N exclamation_sign ; G 127
+U 61547 ; WX 857 ; N gift ; G 128
+U 61548 ; WX 1000 ; N leaf ; G 129
+U 61549 ; WX 786 ; N fire ; G 130
+U 61550 ; WX 1000 ; N eye_open ; G 131
+U 61552 ; WX 1000 ; N eye_close ; G 132
+U 61553 ; WX 1000 ; N warning_sign ; G 133
+U 61554 ; WX 786 ; N plane ; G 134
+U 61555 ; WX 929 ; N calendar ; G 135
+U 61556 ; WX 1000 ; N random ; G 136
+U 61557 ; WX 1000 ; N comment ; G 137
+U 61558 ; WX 857 ; N magnet ; G 138
+U 61559 ; WX 929 ; N chevron_up ; G 139
+U 61560 ; WX 929 ; N chevron_down ; G 140
+U 61561 ; WX 1071 ; N retweet ; G 141

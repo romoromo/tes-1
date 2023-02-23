@@ -1,0 +1,258 @@
+<html>
+    <head>
+        <style type="text/css">            
+           body {
+            margin: 0 auto;
+           }
+            .border_atas {
+                    border-top: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kiri {
+                    border-left: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_kanan {
+                    border-right: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .border_bawah {
+                    border-bottom: 1px solid black;
+                    border-collapse: collapse;
+            }
+
+            .font_lima {
+                    font-size: 5pt;
+            }
+
+            .font_tujuh {
+                    font-size: 7pt;
+            }  
+
+            .font_delapan {
+                    font-size: 9pt;
+            }    
+
+            .font_sembilan {
+                    font-size: 9pt;
+            }    
+
+            .font_sepuluh {
+                    font-size: 10pt;
+            }
+
+            .font_duabelas {
+                    font-size: 12pt;
+            }
+
+            .divTableRow {
+                            display: table-row;
+            }
+            .divTableCell, .divTableHead {
+                            border: 1px solid #000;
+                            display: table-cell;
+                            padding: 3px 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+    <table border="1" style="border:#666666 solid 0.5px;table-layout: fixed;" width="100%" >
+    <tr>
+        <td colspan="6" style="border:0;padding: 0" width="100%">
+            <table border="1" style="border:#666666 solid 0.5px;border-collapse:collapse;" cellspacing="0" cellpadding="0" width="100%">
+                <tr align="center">
+                    <td width="250px" style="padding: 0;" align="center">
+                        <p style="font-size: 10pt;margin: 7px 0 0 0;">PEMERINTAH KOTA YOGYAKARTA</p>
+                        <b style="font-size: 9pt;">BADAN PENGELOLAAN KEUANGAN DAN ASET DAERAH</b><br>
+                        <p style="font-size: 8pt;margin: 0px;">Jl. Kenari No.56 Yogyakarta Kode Pos :55165</p>
+                        <p style="font-size: 6pt;margin-top: 5px;">
+                        Telp (0274) 548519, 562835, 515865, 562682 Fax. (0274) 548519 <br>
+                        EMAIL : bpkad@jogjakota.go.id HOTLINE SMS : 08122780001
+                        </p>
+                        <p style="font-size: 8pt;margin: 8pt;">
+                        HOTLINE EMAIL : upik@jogjakota.go.id<br>
+                        WEBSITE : www.jogjakota.go.id</p>
+                    </td>
+                    <td width="250px" style="padding: 9px;" align="center">
+                        <b style="font-size: 20pt;">SKPD</b>
+                        <br>
+                        <b style="font-size: 8pt;">(SURAT KETETAPAN PAJAK DAERAH)</b>
+                        <br>
+                        <table style="border:#fff solid 0.1px;border-collapse:collapse;font-size: 8pt;margin-top: 5px;" width="250px">
+                            <tr>
+                                <td width="80px">Masa Pajak</td>
+                                <td>: {$PAJAK_MASA}</td>
+                            </tr>
+                            <tr>
+                                <td>Tahun</td>
+                                <td>: {$PAJAK_TAHUN}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="250px" style="padding: 9px;" align="center">
+                        No. Urut
+                        <br>
+                        <br>
+                        {$PAJAK_NOURUT}
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <table width="800px" style="padding: 1%;vertical-align: top;border: 1px solid #f4f4f4;">
+                <tr>
+                    <td width="1%"></td>
+                    <td align="center" width="30%">Nama</td>
+                    <td>: {$WP_NAMA}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="center">Alamat</td>
+                    <td>: {$WP_ALAMAT}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="center">NPWPD</td>
+                    <td>: {$WP_NPWPD}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="center">Tanggal Jatuh Tempo</td>
+                    <td>: {$PAJAK_JATUHTEMPO}</td>
+                </tr>
+            </table>
+            <table border="1" style="border:#666666 solid 0.5px;border-collapse:collapse;vertical-align: top;" width="100%">
+                <tr>
+                    <td align="center" width="1%" style="padding: 9px;">No.</td>
+                    <td align="center">Ayat</td>
+                    <td align="center" colspan="3">Jenis Pajak Daerah</td>
+                    <td align="center">Jumlah <br>Rp.</td>
+                </tr>
+                <tr>
+                    <td style="height: 98px;padding: 10px;">1</td>
+                    <td style="padding: 10px;">
+                        {$PAJAK_AYAT}
+                    </td>
+                    <td style="padding: 10px;" colspan="3">
+                        {$PAJAK_NAMA}
+                        <br>
+                        <br>
+                        Volume: {$VOL} M³
+                        <br>
+                        <br>
+                        {$LABEL_STIMULUS}
+                    </td>
+                    <td style="padding: 10px;" align="right">
+                        {$PAJAK_NOMINAL}
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        {$PAJAK_STIMULUS}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="4"></td>
+                    <td colspan="3" style="padding: 5px;">Jumlah Ketetapan Pokok Pajak </td>
+                    <td style="padding: 10px;" align="right">
+                        {$PAJAK_TOTAL}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding: 5px;">Jumlah Sanksi :  a. Bunga </td>
+                    <td align="right" style="padding: 10px;">{$PAJAK_BUNGA}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding: 5px;"><p style="margin-left: 97px">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    :  b. Kenaikan</p> </td>
+                    <td align="right" style="padding: 10px;">{$PAJAK_KENAIKAN}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding: 5px;">Jumlah Keseluruhan</td>
+                    <td align="right" style="padding: 10px;">{$PAJAK_TOTAL}</td>
+                </tr>
+            </table>
+            <!--<table style="border:#666666 solid 0.5px;border-collapse:collapse;" width="100%" style="padding: 2% 8% 2% 2%;">-->
+            <table style="border:#666666 solid 0.5px;border-collapse:collapse;padding: 2% 8% 2% 2%;" width="100%">
+                <tr> 
+                    <td width="10%" align="left">Dengan Huruf &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td width="50%" style="border: 1px solid #000;height: 57px; font-size: 10pt;font-style: italic;padding-left: 20px;"> 
+                        # {$PAJAK_TERBILANG} Rupiah #
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" style="padding: 2% 0 3% 0;font-size: 8pt;border-top: #000 solid 1px;border-bottom: #000 solid 1px;border-collapse:collapse;padding-left: 10px;">
+            <p style="margin: 9px 0 4px 11px;">PERHATIAN :</p>
+            <ol style="margin: 0">
+                <li>Harap penyetoran dilakukan melalui BKP atau Kas Daerah (Bank Pembangunan Daerah) dengan menggunakan Surat Setoran Pajak Daerah</li>
+                <li>Apabila SKPD ini tidak atau kurang Dibayar setelah lewat waktu paling lama 30 hari sejak SKPD ini diterbitkan dikenakan Sanksi administrasi berupa bunga 2% per bulan.</li>
+            </ol>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" style="padding: 2%;">
+            <table width="800px">
+                <tr>
+                    <td width="300px"></td>
+                    <td>Yogyakarta, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;{$CETAK_MASA}</td>
+                    <td>Tahun {$CETAK_TAHUN}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>a.n. Kepala</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Kepala Sub Bidang Penetapan Daerah
+                    <br>
+                    <br>
+                    {$tampilttdwp}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td></td>
+                    <td>
+                    {$CETAK_PEJABATNAMA}
+                    <hr>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>NIP. {$CETAK_PEJABATNIP}</td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<p style="font-size: 8pt;margin: 0;">
+MODEL : DPD - 10 A
+</p>
+</body>
+</html>

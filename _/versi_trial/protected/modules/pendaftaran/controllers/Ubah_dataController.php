@@ -1,0 +1,709 @@
+<?php
+
+class Ubah_dataController extends Controller
+{
+	public function actionIndex()
+	{
+		$data['provinsi'] = TBLPROVINSI::model()->findAll();
+		$data['kec'] = Yii::app()->db->createCommand("SELECT * FROM REFKECAMATAN")->queryAll();
+		$data['rek'] = Yii::app()->db->createCommand("SELECT * FROM REFBADANUSAHA")->queryAll();
+
+		$this->renderPartial('index', array('data' => $data));
+	}
+
+	public function actionCetak()
+    {
+        $data['URL_APP']=Yii::app()->getBaseUrl(true);
+
+		$TBLDAFTAR_NOPOK = !empty(DMOrcl::getRequest('TBLDAFTAR_NOPOK')) ? DMOrcl::getRequest('TBLDAFTAR_NOPOK') : '';
+		$TBLDAFTAR_JENISPENDAPATAN = !empty(DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN')) ? DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN') : '';
+		$TBLDAFTAR_GOLONGAN = !empty(DMOrcl::getRequest('TBLDAFTAR_GOLONGAN')) ? DMOrcl::getRequest('TBLDAFTAR_GOLONGAN') : '';
+		$REFBADANUSAHA_ID = !empty(DMOrcl::getRequest('REFBADANUSAHA_ID')) ? DMOrcl::getRequest('REFBADANUSAHA_ID') : '';
+		$TBLDAFTAR_ISAKTIF = !empty(DMOrcl::getRequest('TBLDAFTAR_ISAKTIF')) ? DMOrcl::getRequest('TBLDAFTAR_ISAKTIF') : '';
+		$TBLDAFTAR_PEMILIKNAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA') : '';
+		$TBLKECAMATAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK') : '';
+		$TBLKELURAHAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK') : '';
+		$TBLDAFTAR_PEMILIKALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT') : '';
+		$TBLDAFTAR_BADANUSAHANAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA') : '';
+		$TBLKECAMATAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA') : '';
+		$TBLKELURAHAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA') : '';
+		$TBLDAFTAR_BADANUSAHAALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT') : '';
+
+        $select = "
+			TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN,
+			TBLDAFTAR.TBLDAFTAR_GOLONGAN,
+			TBLDAFTAR.TBLDAFTAR_NOPOK,
+				(
+					SELECT
+						REFKELURAHAN.REFKELURAHAN_NAMA
+					FROM
+						REFKELURAHAN
+					WHERE
+						REFKELURAHAN.REFKELURAHAN_ID = TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA
+					AND REFKELURAHAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+				) AS REFKELURAHAN,
+				(
+					SELECT
+						REFKECAMATAN.REFKECAMATAN_NAMA
+					FROM
+						REFKECAMATAN
+					WHERE
+						REFKECAMATAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+				) AS REFKECAMATAN_NAMA,
+				TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA,
+				TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT,
+				TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA,
+				TBLDAFTAR.REFBADANUSAHA_IDPEMILIK,
+				TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+				NVL (
+					TBLDAFTAR.TBLDAFTAR_ALASANNONAKTIF,
+					'-'
+				) AS TBLDAFTAR_ALASANNONAKTIF";
+         $from = 'TBLDAFTAR';
+
+         $otherquery = array(
+             'leftjoin_REFBADANUSAHA'=>array('REFBADANUSAHA','TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA=REFBADANUSAHA.REFBADANUSAHA_ID')
+             // ,'order'=> 'TBLKECAMATAN_IDBADANUSAHA, TBLDAFTAR_NOPOK ASC'
+             // ,'leftjoin_REFBADANUSAHA'=>array('TBLDAFTAR','TBLDAFTAR.REFBADANUSAHA_IDPEMILIK=REFBADANUSAHA.REFBADANUSAHA_ID')
+        );
+
+        $filter = array(
+            'EQ__TBLDAFTAR.TBLDAFTAR_NOPOK' => $TBLDAFTAR_NOPOK
+			,'EQ__TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN' => $TBLDAFTAR_JENISPENDAPATAN
+			,'EQ__TBLDAFTAR.TBLDAFTAR_GOLONGAN' => $TBLDAFTAR_GOLONGAN
+			,'EQ__TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA' => $REFBADANUSAHA_ID
+			,'EQ__TBLDAFTAR.TBLDAFTAR_ISAKTIF' => $TBLDAFTAR_ISAKTIF
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKNAMA' => $TBLDAFTAR_PEMILIKNAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDPEMILIK' => $TBLKECAMATAN_IDPEMILIK
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDPEMILIK' => $TBLKELURAHAN_IDPEMILIK
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKALAMAT' => $TBLDAFTAR_PEMILIKALAMAT
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA' => $TBLDAFTAR_BADANUSAHANAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA' => $TBLKECAMATAN_IDBADANUSAHA
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA' => $TBLKELURAHAN_IDBADANUSAHA
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT' => $TBLDAFTAR_BADANUSAHAALAMAT
+        );
+
+
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['cetak'] = DBFetch::query($arrayConfig);
+
+        $this->renderPartial('cetak_daftar', array('data'=>$data));
+    }
+
+    public function actionCetak_status()
+    {
+    	$data['URL_APP']=Yii::app()->getBaseUrl(true);
+
+		$TBLDAFTAR_NOPOK = !empty(DMOrcl::getRequest('TBLDAFTAR_NOPOK')) ? DMOrcl::getRequest('TBLDAFTAR_NOPOK') : '';
+		$TBLDAFTAR_JENISPENDAPATAN = !empty(DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN')) ? DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN') : '';
+		$TBLDAFTAR_GOLONGAN = !empty(DMOrcl::getRequest('TBLDAFTAR_GOLONGAN')) ? DMOrcl::getRequest('TBLDAFTAR_GOLONGAN') : '';
+		$REFBADANUSAHA_ID = !empty(DMOrcl::getRequest('REFBADANUSAHA_ID')) ? DMOrcl::getRequest('REFBADANUSAHA_ID') : '';
+		$TBLDAFTAR_ISAKTIF = !empty(DMOrcl::getRequest('TBLDAFTAR_ISAKTIF')) ? DMOrcl::getRequest('TBLDAFTAR_ISAKTIF') : '';
+		$TBLDAFTAR_PEMILIKNAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA') : '';
+		$TBLKECAMATAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK') : '';
+		$TBLKELURAHAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK') : '';
+		$TBLDAFTAR_PEMILIKALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT') : '';
+		$TBLDAFTAR_BADANUSAHANAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA') : '';
+		$TBLKECAMATAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA') : '';
+		$TBLKELURAHAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA') : '';
+		$TBLDAFTAR_BADANUSAHAALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT') : '';
+
+        $select = "
+			TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN,
+			TBLDAFTAR.TBLDAFTAR_GOLONGAN,
+			TBLDAFTAR.TBLDAFTAR_NOPOK,
+				(
+					SELECT
+						REFKELURAHAN.REFKELURAHAN_NAMA
+					FROM
+						REFKELURAHAN
+					WHERE
+						REFKELURAHAN.REFKELURAHAN_ID = TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA
+					AND REFKELURAHAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+				) AS REFKELURAHAN,
+				(
+					SELECT
+						REFKECAMATAN.REFKECAMATAN_NAMA
+					FROM
+						REFKECAMATAN
+					WHERE
+						REFKECAMATAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+				) AS REFKECAMATAN_NAMA,
+				TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA,
+				TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT,
+				TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA,
+				TBLDAFTAR.REFBADANUSAHA_IDPEMILIK,
+				TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+				NVL (
+					TBLDAFTAR.TBLDAFTAR_ALASANNONAKTIF,
+					'-'
+				) AS TBLDAFTAR_ALASANNONAKTIF";
+         $from = 'TBLDAFTAR';
+
+         $otherquery = array(
+             'leftjoin_REFBADANUSAHA'=>array('REFBADANUSAHA','TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA=REFBADANUSAHA.REFBADANUSAHA_ID')
+             // ,'order'=> 'TBLKECAMATAN_IDBADANUSAHA, TBLDAFTAR_NOPOK ASC'
+             // ,'leftjoin_REFBADANUSAHA'=>array('TBLDAFTAR','TBLDAFTAR.REFBADANUSAHA_IDPEMILIK=REFBADANUSAHA.REFBADANUSAHA_ID')
+        );
+
+        $filter = array(
+            'EQ__TBLDAFTAR.TBLDAFTAR_NOPOK' => $TBLDAFTAR_NOPOK
+			,'EQ__TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN' => $TBLDAFTAR_JENISPENDAPATAN
+			,'EQ__TBLDAFTAR.TBLDAFTAR_GOLONGAN' => $TBLDAFTAR_GOLONGAN
+			,'EQ__TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA' => $REFBADANUSAHA_ID
+			,'EQ__TBLDAFTAR.TBLDAFTAR_ISAKTIF' => $TBLDAFTAR_ISAKTIF
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKNAMA' => $TBLDAFTAR_PEMILIKNAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDPEMILIK' => $TBLKECAMATAN_IDPEMILIK
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDPEMILIK' => $TBLKELURAHAN_IDPEMILIK
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKALAMAT' => $TBLDAFTAR_PEMILIKALAMAT
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA' => $TBLDAFTAR_BADANUSAHANAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA' => $TBLKECAMATAN_IDBADANUSAHA
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA' => $TBLKELURAHAN_IDBADANUSAHA
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT' => $TBLDAFTAR_BADANUSAHAALAMAT
+        );
+
+
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['cetak'] = DBFetch::query($arrayConfig);
+
+        $this->renderPartial('cetak_daftar_status', array('data'=>$data));
+    }
+
+
+    public function actionsetRekening()
+	{
+		$idgol = (int)$_REQUEST['value'];
+
+		$rekening = Yii::app()->db->createCommand("
+		SELECT *
+		FROM
+		REFBADANUSAHA
+		WHERE
+			REFBADANUSAHA_GOLONGAN = ".$idgol)
+		->queryAll();
+
+		if ($idgol == 4) {
+
+			$rekening = Yii::app()->db->createCommand("
+			SELECT *
+			FROM
+			REFBADANUSAHA
+			WHERE
+				REFBADANUSAHA_REKAYAT = 3")
+			->queryAll();
+		}
+
+			echo '<option value="">== Silahkan Pilih Rekening ==</option>';
+		foreach ($rekening as $rek) {
+			echo '<option value="'.$rek['REFBADANUSAHA_ID'].'">'.$rek['REFBADANUSAHA_ID'].' | '.$rek['REFBADANUSAHA_NAMA'].'</option>';
+		}
+		
+		// print_r($rekening);
+
+	}
+
+	public function actiongetKelurahan()
+	{
+		$kec = $_REQUEST['value'];
+
+		$kelurahan = Yii::app()->db->createCommand("
+		SELECT *
+		FROM
+		REFKELURAHAN
+		WHERE
+			REFKECAMATAN_ID =".$kec)
+		->queryAll();
+
+			echo '<option value="">== Silahkan Pilih Kelurahan ==</option>';
+		foreach ($kelurahan as $kel) {
+			echo '<option value="'.$kel['REFKELURAHAN_ID'].'">'.$kel['REFKELURAHAN_NAMA'].'</option>';
+		}
+
+	}
+
+	public function actiongetKelurahan2()
+	{
+		$kec = $_REQUEST['value'];
+
+		$kelurahan = Yii::app()->db->createCommand("
+		SELECT *
+		FROM
+		REFKELURAHAN
+		WHERE
+			REFKECAMATAN_ID =".$kec)
+		->queryAll();
+
+			echo '<option value="">== Silahkan Pilih Kelurahan ==</option>';
+		foreach ($kelurahan as $kel) {
+			echo '<option value="'.$kel['REFKELURAHAN_ID'].'">'.$kel['REFKELURAHAN_NAMA'].'</option>';
+		}
+
+	}
+
+	public function actiongetKodepos()
+	{
+		$kel = $_REQUEST['value'];
+
+		$kelurahan = Yii::app()->db->createCommand("
+		SELECT REFKELURAHAN_KODEPOS
+		FROM
+		REFKELURAHAN
+		WHERE
+			REFKELURAHAN_ID =".$kel)
+		->queryRow();
+
+		echo CJSON::encode(array('kodepos'=>$kelurahan['REFKELURAHAN_KODEPOS']));
+	}
+
+	public function actiongetKelurahanedit()
+	{
+		$kec = $_REQUEST['value'];
+
+		$kelurahan = Yii::app()->db->createCommand("
+		SELECT *
+		FROM
+		REFKELURAHAN
+		WHERE
+			REFKECAMATAN_ID =".$kec)
+		->queryAll();
+
+			echo '<option value="">== Silahkan Pilih Kelurahan ==</option>';
+		foreach ($kelurahan as $kel) {
+			echo '<option value="'.$kel['REFKELURAHAN_ID'].'">'.$kel['REFKELURAHAN_NAMA'].'</option>';
+		}
+
+	}
+
+	public function actiongetKelurahanedit2()
+	{
+		$kec = $_REQUEST['value'];
+
+		$kelurahan = Yii::app()->db->createCommand("
+		SELECT *
+		FROM
+		REFKELURAHAN
+		WHERE
+			REFKECAMATAN_ID =".$kec)
+		->queryAll();
+
+			echo '<option value="">== Silahkan Pilih Kelurahan ==</option>';
+		foreach ($kelurahan as $kel) {
+			echo '<option value="'.$kel['REFKELURAHAN_ID'].'">'.$kel['REFKELURAHAN_NAMA'].'</option>';
+		}
+
+	}
+
+	public function actionautocompletewp()
+	{
+		header('Content-type: text/json');
+		header('Content-type: application/json');
+		
+		$query = trim($_REQUEST['query']);
+
+		$select = "
+		TBLDAFTAR.TBLDAFTAR_NOPOK,
+		TBLDAFTAR.TBLDAFTAR_GOLONGAN,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT,
+		TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKNAMA,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKALAMAT,
+		TBLDAFTAR.TBLDAFTAR_NIB
+		";
+		$from = 'TBLDAFTAR';
+		$filter = array(
+			'LK__TBLDAFTAR_BADANUSAHANAMA' => $query
+			,'LK__TBLDAFTAR_BADANUSAHAALAMAT' => $query
+			,'LK__TBLDAFTAR_NOPOK' => $query
+		);
+
+		/*$filter_AND = array(
+			'EQ__TBLDAFTAR_GOLONGAN' => $this->KODE_GOL
+			,'EQ__REFBADANUSAHA.REFBADANUSAHA_REKAYAT' => $this->PAJAK_AYAT
+			// ,'EQ__tblsubyek_isaktif' => "T"
+		);*/
+
+		$otherquery = array(
+			'limit'=> 30
+			// ,'join'=> array('REFBADANUSAHA', 'REFBADANUSAHA.REFBADANUSAHA_ID= TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA')
+			,'order'=> 'TBLDAFTAR_NOPOK ASC'
+		);
+
+		// $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'filter_AND'=>$filter_AND,'filterOR'=>true,'otherquery'=>$otherquery,'mode'=>'LIST');
+		$arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'filterOR'=>true,'otherquery'=>$otherquery,'mode'=>'LIST');
+		$results = DBFetch::query($arrayConfig);
+
+		$suggestions = array();
+		 
+		foreach($results as $result)
+		{
+			$suggestions[] = array(
+			"value" => $result['TBLDAFTAR_NOPOK']. ' | ' . $result['TBLDAFTAR_BADANUSAHANAMA']. ' | ' . $result['TBLDAFTAR_BADANUSAHAALAMAT']
+			,"data" => $result['TBLDAFTAR_NOPOK']
+			,"TBLDAFTAR_BADANUSAHANAMA" => $result['TBLDAFTAR_BADANUSAHANAMA']
+			,"TBLDAFTAR_BADANUSAHAALAMAT" => $result['TBLDAFTAR_BADANUSAHAALAMAT']
+			,"TBLDAFTAR_NOPOK" => $result['TBLDAFTAR_NOPOK']
+			// ,"REKENING_KODE" => $result['REKENING_KODE']
+			);
+		}
+
+		 
+		echo CJSON::encode(array('suggestions' => $suggestions));
+	}
+
+	public function actiongetdataedit()
+	{
+		$id = $_REQUEST['id'];
+		// $bulan = (int)trim($_POST['bulan']);
+		// $tahun = trim($_POST['tahun']);
+		/*$data = array();
+		if ($cek>0) {
+			$data['data'] = 'ada';
+		}else{
+			$data['data'] = 'tidak';
+		}*/
+		
+		$select = "
+		TBLDAFTAR.TBLDAFTAR_NIK,
+		TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN,
+		TBLDAFTAR.TBLDAFTAR_NOPOK,
+		TBLDAFTAR.TBLDAFTAR_GOLONGAN,
+		TBLDAFTAR.TBLDAFTAR_NOFORMULIR,
+		TBLDAFTAR.TBLDAFTAR_NOPOKL,
+		TBLDAFTAR.TBLDAFTAR_GOLONGANL,
+		TBLDAFTAR.TBLDAFTAR_NPWPP,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKTELP,
+		REPLACE(NVL(TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA, '-'), '  ', '') AS TBLDAFTAR_BADANUSAHANAMA,
+		REPLACE(NVL(TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT, '-'), '  ', '') AS TBLDAFTAR_BADANUSAHAALAMAT,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHARTRW,
+		TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA,
+		TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHAKOTA,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHATELPAREA,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHATELP,
+		TBLDAFTAR.TBLDAFTAR_BADANUSAHAKODEPOS,
+		TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA,
+		REPLACE(NVL(TBLDAFTAR.TBLDAFTAR_PEMILIKNAMA, '-'), '  ', '') AS TBLDAFTAR_PEMILIKNAMA,
+		REPLACE(NVL(TBLDAFTAR.TBLDAFTAR_PEMILIKALAMAT, '-'), '  ', '') AS TBLDAFTAR_PEMILIKALAMAT,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKRTRW,
+		TBLDAFTAR.TBLKECAMATAN_IDPEMILIK,
+		TBLDAFTAR.TBLKELURAHAN_IDPEMILIK,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKKOTA,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKKODEAREA,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKTELP,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKKODEPOS,
+		TBLDAFTAR.REFBADANUSAHA_IDPEMILIK,
+		TBLDAFTAR.TBLDAFTAR_PEMILIKJABATAN,
+		TBLDAFTAR.TBLDAFTAR_ISKAS,
+		TBLDAFTAR.TBLDAFTAR_ISBUKUREGISTER,
+		TBLDAFTAR.TBLDAFTAR_ISNOTA,
+		TBLDAFTAR.TBLDAFTAR_ISJENISPENDAFTARAN,
+		TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+		TBLDAFTAR.TBLDAFTAR_TANGGALNONAKTIF,
+		TBLDAFTAR.TBLDAFTAR_ALASANNONAKTIF,
+		TBLDAFTAR.TBLDAFTAR_NOKUKUH,
+		TBLDAFTAR.TBLDAFTAR_TAHUNKUKUH,
+		TBLDAFTAR.TBLDAFTAR_BULANKUKUH,
+		TBLDAFTAR.TBLDAFTAR_TANGGALKUKUH,
+		TBLDAFTAR.TBLDAFTAR_TAHUNTERIMADAFTAR,
+		TBLDAFTAR.TBLDAFTAR_BULANTERIMADAFTAR,
+		TBLDAFTAR.TBLDAFTAR_TANGGALTERIMADAFTAR,
+		TBLDAFTAR.TBLDAFTAR_TAHUNENTRYDAFTAR,
+		TBLDAFTAR.TBLDAFTAR_BULANENTRYDAFTAR,
+		TBLDAFTAR.TBLDAFTAR_TANGGALENTRYDAFTAR,
+		TBLDAFTAR.TBLDAFTAR_ISKETETAPANFLAT,
+		TBLDAFTAR.TBLDAFTAR_EMAIL,
+		TBLDAFTAR.TBLDAFTAR_NIB,
+		NVL(TBLDAFTAR.TBLPROVINSI_KODE,'0') AS TBLPROVINSI_KODE,
+		NVL(TBLDAFTAR.TBLKABUPATEN_KODE,'0') AS TBLKABUPATEN_KODE,
+		NVL(TBLDAFTAR.TBLKECAMATAN_KODE,'0') AS TBLKECAMATAN_KODE,
+		NVL(TBLDAFTAR.TBLKELURAHAN_KODE,'0') AS TBLKELURAHAN_KODE,
+		NVL(TBLDAFTAR.TBLPROVINSI_KODEBU,'0') AS TBLPROVINSI_KODEBU,
+		NVL(TBLDAFTAR.TBLKABUPATEN_KODEBU,'0') AS TBLKABUPATEN_KODEBU,
+		NVL(TBLDAFTAR.TBLKECAMATAN_KODEBU,'0') AS TBLKECAMATAN_KODEBU,
+		NVL(TBLDAFTAR.TBLKELURAHAN_KODEBU,'0') AS TBLKELURAHAN_KODEBU
+
+		";
+		$from = 'TBLDAFTAR';
+		$filter = array(
+			'EQ__TBLDAFTAR_NOPOK' => $id
+		);
+
+		$model = DBFetch::query( array('select'=>$select,'from'=>$from,'filter'=>$filter,'mode'=>'DETAIL') );
+
+		echo CJSON::encode($model);
+	}
+
+	public function actionGetData()
+    {
+        $TBLDAFTAR_NOPOK = !empty(DMOrcl::getRequest('TBLDAFTAR_NOPOK')) ? DMOrcl::getRequest('TBLDAFTAR_NOPOK') : '';
+		$TBLDAFTAR_JENISPENDAPATAN = !empty(DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN')) ? DMOrcl::getRequest('TBLDAFTAR_JENISPENDAPATAN') : '';
+		$TBLDAFTAR_GOLONGAN = !empty(DMOrcl::getRequest('TBLDAFTAR_GOLONGAN')) ? DMOrcl::getRequest('TBLDAFTAR_GOLONGAN') : '';
+		$REFBADANUSAHA_ID = !empty(DMOrcl::getRequest('REFBADANUSAHA_ID')) ? DMOrcl::getRequest('REFBADANUSAHA_ID') : '';
+		$TBLDAFTAR_ISAKTIF = !empty(DMOrcl::getRequest('TBLDAFTAR_ISAKTIF')) ? DMOrcl::getRequest('TBLDAFTAR_ISAKTIF') : '';
+		$TBLDAFTAR_PEMILIKNAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKNAMA') : '';
+		$TBLKECAMATAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKECAMATAN_IDPEMILIK') : '';
+		$TBLKELURAHAN_IDPEMILIK = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK')) ? DMOrcl::getRequest('TBLKELURAHAN_IDPEMILIK') : '';
+		$TBLDAFTAR_PEMILIKALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_PEMILIKALAMAT') : '';
+		$TBLDAFTAR_BADANUSAHANAMA = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHANAMA') : '';
+		$TBLKECAMATAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKECAMATAN_IDBADANUSAHA') : '';
+		$TBLKELURAHAN_IDBADANUSAHA = !empty(DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA')) ? DMOrcl::getRequest('TBLKELURAHAN_IDBADANUSAHA') : '';
+		$TBLDAFTAR_BADANUSAHAALAMAT = !empty(DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT')) ? DMOrcl::getRequest('TBLDAFTAR_BADANUSAHAALAMAT') : '';
+		$TBLDAFTAR_NIB = !empty(DMOrcl::getRequest('TBLDAFTAR_NIB')) ? DMOrcl::getRequest('TBLDAFTAR_NIB') : '';
+
+         $select = "
+			TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN,
+			TBLDAFTAR.TBLDAFTAR_GOLONGAN,
+			TBLDAFTAR.TBLDAFTAR_NOPOK,
+			TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA,
+			TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA,
+			TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+			(
+				SELECT
+					REFKELURAHAN.REFKELURAHAN_NAMA
+				FROM
+					REFKELURAHAN
+				WHERE
+					REFKELURAHAN.REFKELURAHAN_ID = TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA
+				AND REFKELURAHAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+			) AS REFKELURAHAN,
+			(
+				SELECT
+					REFKECAMATAN.REFKECAMATAN_NAMA
+				FROM
+					REFKECAMATAN
+				WHERE
+					REFKECAMATAN.REFKECAMATAN_ID = TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA
+			) AS REFKECAMATAN_NAMA,
+			TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA,
+			TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT,
+			TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA,
+			TBLDAFTAR.REFBADANUSAHA_IDPEMILIK,
+			TBLDAFTAR.TBLDAFTAR_NIB,
+			TBLDAFTAR.TBLDAFTAR_ISAKTIF,
+			NVL (
+				TBLDAFTAR.TBLDAFTAR_ALASANNONAKTIF,
+				'-'
+			) AS TBLDAFTAR_ALASANNONAKTIF";
+         $from = 'TBLDAFTAR';
+
+         $otherquery = array(
+             'leftjoin_REFBADANUSAHA'=>array('REFBADANUSAHA','TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA=REFBADANUSAHA.REFBADANUSAHA_ID')
+             // ,'order'=> 'TBLKECAMATAN_IDBADANUSAHA, TBLDAFTAR_NOPOK ASC'
+             // ,'leftjoin_REFBADANUSAHA'=>array('TBLDAFTAR','TBLDAFTAR.REFBADANUSAHA_IDPEMILIK=REFBADANUSAHA.REFBADANUSAHA_ID')
+        );
+
+        $filter = array(
+            'EQ__TBLDAFTAR.TBLDAFTAR_NOPOK' => $TBLDAFTAR_NOPOK
+			,'EQ__TBLDAFTAR.TBLDAFTAR_JENISPENDAPATAN' => $TBLDAFTAR_JENISPENDAPATAN
+			,'EQ__TBLDAFTAR.TBLDAFTAR_GOLONGAN' => $TBLDAFTAR_GOLONGAN
+			,'EQ__TBLDAFTAR.REFBADANUSAHA_IDBADANUSAHA' => $REFBADANUSAHA_ID
+			,'EQ__TBLDAFTAR.TBLDAFTAR_ISAKTIF' => $TBLDAFTAR_ISAKTIF
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKNAMA' => $TBLDAFTAR_PEMILIKNAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDPEMILIK' => $TBLKECAMATAN_IDPEMILIK
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDPEMILIK' => $TBLKELURAHAN_IDPEMILIK
+			,'LK__TBLDAFTAR.TBLDAFTAR_PEMILIKALAMAT' => $TBLDAFTAR_PEMILIKALAMAT
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHANAMA' => $TBLDAFTAR_BADANUSAHANAMA
+			,'EQ__TBLDAFTAR.TBLKECAMATAN_IDBADANUSAHA' => $TBLKECAMATAN_IDBADANUSAHA
+			,'EQ__TBLDAFTAR.TBLKELURAHAN_IDBADANUSAHA' => $TBLKELURAHAN_IDBADANUSAHA
+			,'LK__TBLDAFTAR.TBLDAFTAR_BADANUSAHAALAMAT' => $TBLDAFTAR_BADANUSAHAALAMAT
+        );
+
+
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['daftar'] = DBFetch::query($arrayConfig);
+
+        $this->renderPartial('grid', array('data'=>$data));
+    }
+
+    public function actionSimpan()
+	{
+		Yii::import('ext.LokalIndonesia');
+
+		$PARAM = $_REQUEST;
+		$NOPOK = $_REQUEST['TBLDAFTAR_NOPOK_edit'];
+		$TBLDAFTAR_TANGGALKUKUH = !empty($_REQUEST['TBLDAFTAR_TANGGALKUKUH_edit']) ? $_REQUEST['TBLDAFTAR_TANGGALKUKUH_edit'] : '';
+		$TBLDAFTAR_TANGGALTERIMADAFTAR = !empty($_REQUEST['TBLDAFTAR_TANGGALTERIMADAFTAR_edit']) ? $_REQUEST['TBLDAFTAR_TANGGALTERIMADAFTAR_edit'] : '';
+		$TBLDAFTAR_TANGGALENTRYDAFTAR = !empty($_REQUEST['TBLDAFTAR_TANGGALENTRYDAFTAR_edit']) ? $_REQUEST['TBLDAFTAR_TANGGALENTRYDAFTAR_edit'] : '';
+		
+		if ($TBLDAFTAR_TANGGALKUKUH !='') {
+			$exp_TGLKUKUH = explode('-', $TBLDAFTAR_TANGGALKUKUH);
+		    $pecahtglkukuh = $exp_TGLKUKUH[0];
+		    $pecahbulankukuh = $exp_TGLKUKUH[1];
+		    $pecahthnkukuh = substr($exp_TGLKUKUH[2], -2);
+		}
+		else{
+			$pecahtglkukuh = '';
+			$pecahbulankukuh = '';
+			$pecahthnkukuh = '';
+		}
+
+		if ($TBLDAFTAR_TANGGALTERIMADAFTAR !='') {
+			$exp_TGLTERIMADAFTAR = explode('-', $TBLDAFTAR_TANGGALTERIMADAFTAR);
+			$pecahtgldaftar = $exp_TGLTERIMADAFTAR[0];
+			$pecahbulandaftar = $exp_TGLTERIMADAFTAR[1];
+			$pecahthndaftar = substr($exp_TGLTERIMADAFTAR[2], -2);	
+		} else {
+			$pecahtgldaftar = '';
+			$pecahbulandaftar = '';
+			$pecahthndaftar = '';
+		}
+
+		if ($TBLDAFTAR_TANGGALENTRYDAFTAR !='') {
+			$exp_TGLENTRYDAFTAR = explode('-', $TBLDAFTAR_TANGGALENTRYDAFTAR);
+			$pecahtglentry = $exp_TGLENTRYDAFTAR[0];
+			$pecahbulanentry = $exp_TGLENTRYDAFTAR[1];
+			$pecahthnentry = substr($exp_TGLENTRYDAFTAR[2], -2);
+		} else {
+			$pecahtglentry = '';
+			$pecahbulanentry = '';
+			$pecahthnentry = '';
+		}
+
+		if (substr($PARAM['TBLDAFTAR_PEMILIKKOTA_edit'],0,4)=='KOTA') {
+			$PEMILIKKOTA = substr($PARAM['TBLDAFTAR_PEMILIKKOTA_edit'],4);
+		} else if (substr($PARAM['TBLDAFTAR_PEMILIKKOTA_edit'],0,9)=='KABUPATEN') {
+			$PEMILIKKOTA = substr($PARAM['TBLDAFTAR_PEMILIKKOTA_edit'],9);
+		} else {
+			$PEMILIKKOTA = $PARAM['TBLDAFTAR_PEMILIKKOTA_edit'];
+		}
+
+
+		$command = Yii::app()->db->createCommand();
+		$column = array(
+			'TBLDAFTAR_NOPOK' => $PARAM['TBLDAFTAR_NOPOK_edit'],
+			'TBLDAFTAR_JENISPENDAPATAN' => $PARAM['TBLDAFTAR_JENISPENDAPATAN_edit'],
+			'TBLDAFTAR_GOLONGAN' => $PARAM['TBLDAFTAR_GOLONGAN_edit'],
+			'TBLDAFTAR_NOFORMULIR' => $PARAM['TBLDAFTAR_NOFORMULIR_edit'],
+			'TBLDAFTAR_PEMILIKNAMA' => $PARAM['TBLDAFTAR_PEMILIKNAMA_edit'],
+			'TBLDAFTAR_PEMILIKALAMAT' => $PARAM['TBLDAFTAR_PEMILIKALAMAT_edit'],
+			'TBLDAFTAR_PEMILIKRTRW' => $PARAM['TBLDAFTAR_PEMILIKRTRW_edit'],
+			'TBLDAFTAR_PEMILIKTELP' => $PARAM['TBLDAFTAR_PEMILIKTELP_edit'],
+			//'TBLDAFTAR_NIB' => $PARAM['TBLDAFTAR_NIB_edit'],
+			
+			'TBLPROVINSI_KODE' => $PARAM['TBLPROVINSI_KODE'],
+			'TBLKABUPATEN_KODE' => $PARAM['TBLKABUPATEN_KODE'],
+			'TBLKECAMATAN_KODE' => $PARAM['TBLKECAMATAN_KODE'],
+			'TBLKELURAHAN_KODE' => $PARAM['TBLKELURAHAN_KODE'],
+
+			'TBLPROVINSI_KODEBU' => $PARAM['TBLPROVINSI_KODEBU_edit'],
+			'TBLKABUPATEN_KODEBU' => $PARAM['TBLKABUPATEN_KODEBU_edit'],
+			'TBLKECAMATAN_KODEBU' => $PARAM['TBLKECAMATAN_KODEBU_edit'],
+			'TBLKELURAHAN_KODEBU' => $PARAM['TBLKELURAHAN_KODEBU_edit'],
+
+			'TBLKECAMATAN_IDPEMILIK' => $_REQUEST['kodekec'],
+			'TBLKELURAHAN_IDPEMILIK' => isset($_REQUEST['kodekel']) && !empty($_REQUEST['kodekel']) ? (int)$_REQUEST['kodekel'] : 0,
+
+			'TBLDAFTAR_PEMILIKKODEPOS' => $PARAM['TBLDAFTAR_PEMILIKKODEPOS_edit'],
+			'TBLDAFTAR_PEMILIKKOTA' => $PEMILIKKOTA,
+			'TBLDAFTAR_BADANUSAHANAMA' => $PARAM['TBLDAFTAR_BADANUSAHANAMA_edit'],
+			'TBLDAFTAR_BADANUSAHAALAMAT' => $PARAM['TBLDAFTAR_BADANUSAHAALAMAT_edit'],
+			'TBLDAFTAR_BADANUSAHARTRW' => $PARAM['TBLDAFTAR_BADANUSAHARTRW_edit'],
+			'TBLDAFTAR_BADANUSAHATELPAREA' => $PARAM['TBLDAFTAR_BADANUSAHATELPAREA_edit'],
+
+			'TBLKECAMATAN_IDBADANUSAHA' => isset($_REQUEST['kodekecbu']) && !empty($_REQUEST['kodekecbu']) ? (int)$_REQUEST['kodekecbu'] : 0,
+			'TBLKELURAHAN_IDBADANUSAHA' => isset($_REQUEST['kodekelbu']) && !empty($_REQUEST['kodekelbu']) ? (int)$_REQUEST['kodekelbu'] : 0,
+			//'TBLKECAMATAN_IDBADANUSAHA' => $PARAM['TBLKECAMATAN_IDBADANUSAHA_edit'],
+			//'TBLKELURAHAN_IDBADANUSAHA' => $PARAM['TBLKELURAHAN_IDBADANUSAHA_edit'],
+			
+			'TBLDAFTAR_BADANUSAHAKODEPOS' => $PARAM['TBLDAFTAR_BADANUSAHAKODEPOS_edit'],
+			//'TBLKELURAHAN_IDBADANUSAHA' => $PARAM['TBLKELURAHAN_IDBADANUSAHA_edit'],
+			'REFBADANUSAHA_IDBADANUSAHA' => $PARAM['REFBADANUSAHA_IDBADANUSAHA_edit'],
+			'TBLDAFTAR_BADANUSAHAKOTA' => $PARAM['TBLDAFTAR_BADANUSAHAKOTA_edit'],
+			'TBLDAFTAR_TANGGALTERIMADAFTAR' => $PARAM['TBLDAFTAR_TANGGALTERIMADAFTAR_edit'],
+			
+			'TBLDAFTAR_NOKUKUH' => $PARAM['TBLDAFTAR_NOKUKUH_edit'],
+			'TBLDAFTAR_EMAIL' => $PARAM['TBLDAFTAR_EMAIL'],
+			'TBLDAFTAR_NIB' => $PARAM['TBLDAFTAR_NIB'],
+			'TBLDAFTAR_TANGGALKUKUH' => $pecahtglkukuh,
+			'TBLDAFTAR_BULANKUKUH' => $pecahbulankukuh,
+			'TBLDAFTAR_TAHUNKUKUH' => $pecahthnkukuh,
+
+			'TBLDAFTAR_TANGGALTERIMADAFTAR' => $pecahtgldaftar,
+			'TBLDAFTAR_BULANTERIMADAFTAR' => $pecahbulandaftar,
+			'TBLDAFTAR_TAHUNTERIMADAFTAR' => $pecahthndaftar,
+
+			'TBLDAFTAR_TANGGALENTRYDAFTAR' => $pecahtglentry,
+			'TBLDAFTAR_BULANENTRYDAFTAR' => $pecahbulanentry,
+			'TBLDAFTAR_TAHUNENTRYDAFTAR' => $pecahthnentry,
+			
+			'TBLDAFTAR_ISJENISPENDAFTARAN' => $PARAM['TBLDAFTAR_ISJENISPENDAFTARAN_edit'],
+			'TBLDAFTAR_NIK' => $PARAM['TBLDAFTAR_NIK_edit']);
+
+		$simpan = $command->update('TBLDAFTAR', $column ,'TBLDAFTAR_NOPOK =:NOPOK',array(':NOPOK' => $NOPOK));
+
+		if ($simpan>=0) {
+			echo CJSON::encode(array('status'=>'success'));
+		}
+		else{
+			echo CJSON::encode(array('status'=>'failed'));
+		}
+	}
+	
+	
+	public function actionGetKodeKel()
+	{
+		$kd = $_REQUEST['kd'];
+		$kodebykd = Yii::app()->db->createCommand("SELECT
+			SUBSTR (TBLKELURAHAN_KODE, 0, 2) AS TBLPROVINSI_KODE,
+			SUBSTR (TBLKELURAHAN_KODE, 0, 4) AS TBLKABUPATEN_KODE,
+			TBLKELURAHAN.TBLKECAMATAN_KODE,
+			TBLKECAMATAN.TBLKECAMATAN_NAMA,
+			TBLKELURAHAN_KODE,
+			TBLKELURAHAN_NAMA
+		FROM
+			TBLKELURAHAN
+		JOIN TBLKECAMATAN ON TBLKECAMATAN.TBLKECAMATAN_KODE=TBLKELURAHAN.TBLKECAMATAN_KODE
+		WHERE
+			TBLKELURAHAN_KD =".$kd)->queryRow();
+		echo CJSON::encode($kodebykd);
+	}
+
+	public function actionGetKodeKelbu()
+	{
+		$kd = $_REQUEST['kd'];
+		$kodebykd = Yii::app()->db->createCommand("SELECT
+			SUBSTR (TBLKELURAHAN_KODE, 0, 2) AS TBLPROVINSI_KODE,
+			SUBSTR (TBLKELURAHAN_KODE, 0, 4) AS TBLKABUPATEN_KODE,
+			TBLKELURAHAN.TBLKECAMATAN_KODE,
+			TBLKECAMATAN.TBLKECAMATAN_NAMA,
+			TBLKELURAHAN_KODE,
+			TBLKELURAHAN_NAMA
+		FROM
+			TBLKELURAHAN
+		JOIN TBLKECAMATAN ON TBLKECAMATAN.TBLKECAMATAN_KODE=TBLKELURAHAN.TBLKECAMATAN_KODE
+		WHERE
+			TBLKELURAHAN_KD =".$kd)->queryRow();
+		echo CJSON::encode($kodebykd);
+	}
+
+	// Uncomment the following methods and override them if needed
+	/*
+	public function filters()
+	{
+		// return the filter configuration for this controller, e.g.:
+		return array(
+			'inlineFilterName',
+			array(
+				'class'=>'path.to.FilterClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+
+	public function actions()
+	{
+		// return external action classes, e.g.:
+		return array(
+			'action1'=>'path.to.ActionClass',
+			'action2'=>array(
+				'class'=>'path.to.AnotherActionClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+	*/
+}

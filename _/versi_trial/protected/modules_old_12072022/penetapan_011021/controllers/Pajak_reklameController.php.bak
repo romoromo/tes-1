@@ -1,0 +1,138 @@
+
+<?php
+
+class Pajak_reklameController extends Controller
+{
+    public function init()
+    {
+        Yii::import('ext.DBFetch');
+    }
+
+    public function actionIndex()
+    {   
+        $data['kecamatan'] = TBLKECAMATAN::model()->findAll( 'TBLKABUPATEN_KODE=3471' );
+        $data['total_data'] = 100000000000;
+        // $data['kelurahan'] = Kelurahan::model()->findAll();
+        $this->renderPartial('index', array('data'=>$data));
+    }
+
+    public function actionCari()
+    {
+        $TBLDAFTREKLAME_THNPAJAK = (int)DMOrcl::getRequest('param', 'TBLDAFTREKLAME_THNPAJAK');
+        $data['nourut'] = $TBLDAFTREKLAME_URUTSKPD = (int)DMOrcl::getRequest('param', 'TBLDAFTREKLAME_URUTSKPD');
+        $TBLKECAMATAN_ID = !empty(DMOrcl::getRequest('param', 'TBLKECAMATAN_ID')) ? (int)DMOrcl::getRequest('param', 'TBLKECAMATAN_ID') : '';
+        $TBLDAFTREKLAME_ISJNSPENETAPAN = DMOrcl::getRequest('param', 'TBLDAFTREKLAME_ISJNSPENETAPAN');
+        $TBLDAFTREKLAME_TGLENTRI = strtotime($_REQUEST['param']['TBLDAFTREKLAME_TGLENTRI']) ? date('Y-m-d', strtotime($_REQUEST['TBLDAFTREKLAME_TGLENTRI'])) : '';
+        $data['tglskpd'] = $TBLDAFTREKLAME_TGLSKPD = strtotime($_REQUEST['param']['TBLDAFTREKLAME_TGLSKPD']) ? date('Y-m-d', strtotime($_REQUEST['param']['TBLDAFTREKLAME_TGLSKPD'])) : '';
+        
+        $exptglentri = explode('-', $TBLDAFTREKLAME_TGLENTRI);
+        $tglentri = $exptglentri[1];
+
+        $select = "
+            TNPWPD.TNPWPD_NOPOK AS TNPWPD_NOPOK,
+            TBLDAFTREKLAME_THNPAJAK,
+            TBLDAFTREKLAME_BLNPAJAK,
+            TBLDAFTREKLAME_TGLPAJAK,
+            TBLDAFTREKLAME_PAJAKKE,
+            TSUBYEK.TSUBYEK_BUNAMAMERK AS NAMA_USAHA,
+            TNPWPD.TNPWPD_GOL,
+            TBLDAFTREKLAME.TBLDAFTREKLAME_PAJAK AS PAJAK,
+            TBLDAFTREKLAME.TBLDAFTREKLAME_JNSREKLAME AS KDRE,
+            CONCAT (
+                TBLDAFTREKLAME_TGLPAJAK,
+                CONCAT (
+                    '/',
+                    CONCAT (TBLDAFTREKLAME_BLNPAJAK,(CONCAT('/20', TBLDAFTREKLAME_THNPAJAK)))
+                )
+            ) AS Tgl_SPT,
+            CONCAT (
+                TBLDAFTREKLAME_TGLENTRI,
+                CONCAT (
+                    '/',
+                    CONCAT (
+                        TBLDAFTREKLAME_BLNENTRI,
+                        (CONCAT('/20', TBLDAFTREKLAME_THNENTRI))
+                    )
+                )
+            ) AS Tgl_ENTRY,
+            TBLDAFTREKLAME_PAJAKKE AS LOKASI,
+            TBLDAFTREKLAME_KETERANGAN2 AS ISI_REKLAME,
+            TBLDAFTREKLAME_ISIREKLAME AS KETERANGAN,
+            TBLDAFTREKLAME_JMLHREKLAME AS JUMLAH,
+            TBLDAFTREKLAME_PANJANG,
+            TBLDAFTREKLAME_LEBAR,
+            TBLDAFTREKLAME_SKORKAWASAN,
+            REFKETINGGIAN_SKOR,
+            REFSUDUTPANDANG_SKOR,
+            TBLDAFTREKLAME.TBLDAFTREKLAME_NILAISTRATEGIS,
+            TBLDAFTREKLAME_NILAISEWA
+        ";
+        $from = 'TBLDAFTREKLAME';
+        $filter = array(
+             'EQ__TBLDAFTREKLAME.TBLDAFTREKLAME_THNPAJAK' => substr($TBLDAFTREKLAME_THNPAJAK, -2)
+            ,'EQ__TBLDAFTREKLAME.TBLKECAMATAN_ID' => $TBLKECAMATAN_ID
+            ,'EQ__TBLDAFTREKLAME.TBLDAFTREKLAME_ISJNSPENETAPAN' => $TBLDAFTREKLAME_ISJNSPENETAPAN
+            //,'EQ__TBLDAFTREKLAME_TGLENTRI'=>$tglentri
+        );
+
+        $otherquery = array(
+             'leftjoin_TNPWPD'=>array('TNPWPD','TNPWPD.TNPWPD_NOPOK=TBLDAFTREKLAME.TBLDAFTREKLAME_NOPOK')
+            ,'leftjoin_TSUBYEK'=>array('TSUBYEK','TSUBYEK.TSUBYEK_ID=TNPWPD.TSUBYEK_ID')
+            ,'andwhere'=> '
+            NVL (TBLDAFTREKLAME_URUTSKPD, 0) = 0
+            '/*-- AND TNPWPD.TNPWPD_NOPOK <> 0
+            -- AND TNPWPD.TNPWPD_NOPOK <> 150000'*/
+        );
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['ketetapan'] = DBFetch::query($arrayConfig);
+
+        $this->renderPartial('grid', array('data'=>$data));
+    }
+
+    public function actionTetapkanPajak()
+    {
+        $listPajak = trim($_REQUEST['listPajak'],',');
+        $TBLDAFTREKLAME_THNPAJAK = $_REQUEST['TBLDAFTREKLAME_THNPAJAK'];
+        $TBLDAFTREKLAME_BLNPAJAK = $_REQUEST['TBLDAFTREKLAME_BLNPAJAK'];
+        $TBLDAFTREKLAME_TGLSKPD = date('Y-m-d',strtotime( $_REQUEST['TBLDAFTREKLAME_TGLSKPD'] ));
+        $TBLDAFTREKLAME_TGLBATASSKPD = date('Y-m-d',strtotime( $_REQUEST['TBLDAFTREKLAME_TGLBATASSKPD'] ));
+
+        $THNPAJAK = substr($TBLDAFTREKLAME_THNPAJAK, -2);
+        $BLNPAJAK = (int)$TBLDAFTREKLAME_BLNPAJAK;
+        $TGLSKPD = explode('-', $TBLDAFTREKLAME_TGLSKPD);
+        $TGLBATASSKPD = explode('-', $TBLDAFTREKLAME_TGLBATASSKPD);
+
+        $PajakList = explode(',', $listPajak);
+        print_r($PajakList);
+
+        foreach ($PajakList as $list) {
+            $expList = explode('-', $list);
+            $nopokok = $expList[0]; 
+            $nourut = $expList[1];
+            $pajak = $expList[2]!='' ? $expList[2] : 0;
+
+            $update = Yii::app()->db->createCommand();
+
+            $query = $update->update('TBLDAFTREKLAME', array(
+                 'TBLDAFTREKLAME_THNSKPD' => substr($TGLSKPD[0], -2)
+                ,'TBLDAFTREKLAME_BLNSKPD' => (int) $TGLSKPD[1]
+                ,'TBLDAFTREKLAME_TGLSKPD' => $TGLSKPD[2]
+                ,'TBLDAFTREKLAME_NOMORSKPD' => $nourut
+                ,'TBLDAFTREKLAME_URUTSKPD' => $nourut
+                ,'TBLDAFTREKLAME_PAJAKSKPD' => $pajak
+                ,'TBLDAFTREKLAME_THNBATASSKPD' => substr($TGLBATASSKPD[0], -2)
+                ,'TBLDAFTREKLAME_BLNBATASSKPD' => (int) $TGLBATASSKPD[1]
+                ,'TBLDAFTREKLAME_TGLBATASSKPD' => $TGLBATASSKPD[2]
+            ), 'TBLDAFTREKLAME_NOPOK=:nopok AND TBLDAFTREKLAME_THNPAJAK=:thn AND TBLDAFTREKLAME_BLNPAJAK=:bln', array(':nopok'=>$nopokok,':thn'=>$THNPAJAK,':bln'=>$BLNPAJAK));
+            
+            if ($query>0) {
+                echo CJSON::encode(array('status'=>'success','nopokok'=>$nopokok));
+            }
+            else{
+                echo CJSON::encode(array('status'=>'failed','nopokok'=>$nopokok));
+            }
+        }
+    }
+
+}

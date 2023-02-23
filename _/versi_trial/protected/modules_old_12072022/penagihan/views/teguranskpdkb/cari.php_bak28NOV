@@ -1,0 +1,64 @@
+<table id="dt_basic" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+    <thead>
+        <tr>
+            <th width="10%" data-hide="phone" >
+                <div class="center" style="display:none;">
+                    <label class="checkbox">
+                        <input checked="" type="checkbox" name="cbx-all" onclick="cekAll(this)">
+                        <i></i> All
+                    </label>
+                </div>
+            </th>
+            <th >Tahun</th>
+            <th >Bulan</th>
+            <th >Nopok</th>
+            <th >Tgl. Entri KB</th>
+            <th >No KB</th>
+            <th >Nama BU</th>
+            <th >Alamat</th>
+            <th >RPKB</th>
+            <th >Bunga</th>
+            <th >No ssp</th>
+            <th >Rp SSPD</th>
+            <th ></th>
+
+        </tr>
+    </thead>
+    <tbody style="text-align: center;">
+    <?php $no = 1; foreach ($data['cari'] as $row): ?>
+       <tr>
+        <td>
+            <label class="checkbox">
+                <!-- <input type="checkbox" name="checkbox"> -->
+                <input checked="" class="cbx_tetapkan" value="<?php echo $row['TBLDAFTAR_NOPOK'] ?>" name="nopokPajak" type="checkbox">
+                <i></i>
+            </label>
+        </td>
+        <td>10</td>
+        <td>19</td>
+        <td><?=$row['TBLDAFTHOTEL_TGLKURANGBAYAR'];?>/<?=$row['TBLDAFTHOTEL_BLNKURANGBAYAR'];?>/<?=$row['TBLDAFTHOTEL_THNKURANGBAYAR'];?></td>
+        <td>44</td>
+        <td><?=$row['TBLDAFTAR_BADANUSAHANAMA'];?></td>
+        <td><?=$row['TBLDAFTAR_BADANUSAHAALAMAT'];?></td>
+        <td>Rp 14.345.990</td>
+        <td>Rp 0</td>
+        <td>661</td>
+        <td>Rp 0</td>
+        <td>2166</td>
+        <td></td>
+    </tr>
+    <?php endforeach ?>
+</tbody>
+</table>
+<script type="text/javascript">
+   function cekAll(elemen) {
+    $('.cbx_tetapkan').prop("checked" , elemen.checked);
+}
+
+$(".cbx_tetapkan").click(function(event) {
+    if (!$(event.target).prop('checked')) {
+        window.id_eksepsi += ','+$(event.target).val();
+        cari();
+    }
+});
+</script>

@@ -1,0 +1,90 @@
+/* LAPORAN */
+.cetak {
+	width: auto;
+	background: #F4F4F4;
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+}
+#laporan {
+	margin-right: 20px;
+}
+#laporan table {
+	border-collapse: collapse;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	border: 1px solid
+}
+#laporan table thead{
+	font-weight: bold;
+	border-bottom: 2px solid #aaa;
+	text-align: center;
+	vertical-align: middle;
+}
+#laporan table tfoot {
+	font-weight: bold;
+	border-top: 2px solid #aaa;
+	text-align: center;
+	vertical-align: middle;
+	background: #E5E5E5;
+}
+#laporan table tbody {
+	border-bottom: 1px solid #aaa;
+	vertical-align: top;
+}
+
+#laporan table tbody tr {
+	border-bottom: 1px solid #aaa;
+}
+              
+#laporan table tbody tr.alt-row {
+	background: #f3f3f3;
+}
+#laporan table tbody th {
+	text-align: left;
+}
+#laporan table  td,
+#laporan table th {
+color: #111;
+padding: 3px 6px;
+line-height: 1.5em;
+border: 1px solid #aaa;
+}        
+#laporan table.noborder tr {
+	border-bottom: 1px solid #cacdd3;
+}
+#laporan table.noborder td {
+	border: none;
+	color: #333;
+}
+#laporan table.noborder{
+	border: none;
+}
+
+#laporan table.noborder tbody{
+	border: none;
+}
+table.noborder {
+	border: none;
+}
+table.noborder thead {
+	border: none;
+}
+
+table.noborder tbody {
+	border: none;
+}
+
+table.noborder tbody tr{
+	border: none;
+}
+              
+table.noborder tbody tr.alt-row{
+	border: none;
+}
+
+table.noborder td,
+table.noborder th .noborder {
+	border: none;
+}
+
+/* LAPORAN */

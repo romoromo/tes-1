@@ -1,0 +1,419 @@
+<?php 
+define('ASSETS_URL', Yii::app()->theme->baseUrl);
+?>
+
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="well well-sm well-light bg-color-greenLight txt-color-white">
+            <h4><i class="fa fa-file-text-o"></i> Cetak Kartu Piutang </h4>
+</div>
+</div>
+</div>
+
+  <section id="" class="">
+<!-- row -->
+<div class="row">
+
+    <!-- NEW WIDGET START -->
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+<!-- Widget ID (each widget will need unique ID)-->
+<div class="jarviswidget jarviswidget-color-teal" id="wid-id-validasi_penyetoran" 
+            data-widget-editbutton="false"
+            data-widget-deletebutton="false"
+            data-widget-custombutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-colorbutton="false" 
+            data-widget-togglebutton="false"            
+            >
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                    -->
+      <header role="heading">
+        <span class="widget-icon"><i class="fa fa-search"></i></span>
+          <h2> Cari</h2>
+        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+      </header>
+
+ <!-- widget div-->
+ <div>
+
+<!-- widget edit box -->
+<div class="jarviswidget-editbox">
+      <!-- This area used as dropdown edit box -->
+
+</div>
+<!-- end widget edit box -->
+
+<!-- widget content -->
+<div class="widget-body no-padding">
+                                  
+              <form action="" id="form_sumber_pajak" class="smart-form" novalidate>
+                <fieldset>
+
+<div class="row">
+                  <section class="col col-1">
+                       <p>Nomor Pokok</p>
+                  </section>
+                  <section class="col col-sm-3">
+                      <label class="input">
+                         <input type="text" onkeyup="validAngka(this)">
+                      </label>
+                  </section>
+                   <section class="col col-1">
+                        <p>Kecamatan</p>
+                  </section>
+                  <section class="col col-3">
+                      <label class="select">
+                              <select class="input-md" enabled="enabled">
+                                <option value="0" ></option>
+                                <option value="1" >KEC. CANGKRINGAN</option>
+                                <option value="2" >KEC. BERBAH</option>
+                                <option value="3" >KEC. GAMPING</option>
+                                <option value="4" >KEC. KALASAN</option>
+                                <option value="5" >KEC. GODEAN</option>
+                                <option value="6" >KEC. MOYUDAN</option>
+                                <option value="7" >KEC. MINGGIR</option>
+                                <option value="8" >KEC. MLATI</option>
+                                <option value="9" >KEC. NGAGLIK</option>
+                                <option value="10" >KEC. DEPOK</option>
+                                <option value="11" >KEC. NGEMPLAK</option>
+                                <option value="12" >KEC. MERGANGSAN</option>
+                                <option value="13" >KEC. TEMPEL</option>
+                                <option value="14" >KEC. PRAMBANAN</option>
+                                <option value="15" >KEC. YOGYAKARTA</option>
+                                <option value="16" >LUAR KOTA</option>
+                              </select><i></i>
+                      </label>
+                  </section>
+                 
+</div>         
+<div class="row">
+                <section class="col col-1">
+                        <p>Jenis Pajak</p>
+                  </section>
+                  <section class="col col-3">
+                      <label class="select">
+                              <select class="input-md" enabled="enabled">
+                                <option value="0" >Pilih Pajak</option>
+                                <option value="1" >PAJAK HOTEL</option>
+                                <option value="2" >PAJAK RESTORAN</option>
+                                <option value="3" >PAJAK REKLAME</option>
+                                <option value="4" >PAJAK PENERANGAN JALAN</option>
+                                <option value="5" >PAJAK PARKIR</option>
+                                <option value="6" >PAJAK AIR TANAH</option>
+                                <option value="7" >PAJAK SARANG BURUNG WALET</option>
+                                <option value="8" >BPHTB</option>
+                              </select><i></i>
+                      </label>
+                  </section>
+                  <section class="col col-1">
+                        <p>Kelurahan</p>
+                  </section>
+                   <section class="col col-3">
+                      <label class="select">
+                              <select class="input-md" enabled="enabled">
+                                <option value="0" ></option>
+                                <option value="1" >LUAR KOTA</option>
+                                <option value="2" >KEL. ARGO MULYO</option>
+                                <option value="3" >KEL. GLAGAH HARJO</option>
+                                <option value="4" >KEL. KEPUH HARJO</option>
+                                <option value="5" >KEL. UMBUL HARJO</option>
+                                <option value="6" >KEL. JOGO TIRTO</option>
+                                <option value="7" >KEL. KALI TIRTO</option>
+                                <option value="8" >KEL. TEGAL TIRTO</option>
+                                <option value="8" >KEL. NOGOTIRTO</option>
+                                <option value="8" >KEL. TRIHANGGO</option>
+                                <option value="8" >KEL. BANYURADEN</option>
+                                <option value="8" >KEL. AMBAR KETAWANG</option>
+                                <option value="8" >KEL. BALECATUR</option>
+                                <option value="8" >KEL. PURWO MARTANI</option>
+                                <option value="8" >KEL. SELO MARTANI</option>
+                                <option value="8" >KEL. TIRTO MARTANI</option>
+                                <option value="8" >KEL. SIDOAGUNG</option>
+                                <option value="8" >KEL. SIDOKARTO</option>
+                                <option value="8" >KEL. SUMBER AGUNG</option>
+                                <option value="8" >KEL. SUMBERARUM</option>
+                                <option value="8" >KEL. SENDANG ARUM</option>
+                                <option value="8" >KEL. SENDANG MULYO</option>
+                                <option value="8" >KEL. SENDANG REJO</option>
+                                <option value="8" >KEL. SINDUADI</option>
+                                <option value="8" >KEL. SENDANGDADI</option>
+                                <option value="8" >KEL. TIRTOADI</option>
+                                <option value="8" >KEL. DONOHARJO</option>
+                                <option value="8" >KEL. MINOMARTANI</option>
+                                <option value="8" >KEL. SARI HARJO</option>
+                                <option value="8" >KEL. CATUR TUNGGAL</option>
+                                <option value="8" >KEL. MAGUWOHARJO</option>
+                                <option value="8" >KEL. BIMO MARTANI</option>
+                                <option value="8" >KEL. SINDUMARTANI</option>
+                                <option value="8" >KEL. CANDI BINANGUN</option>
+                                <option value="8" >KEL. HARGO BINANGUN</option>
+                                <option value="8" >KEL. PAKEM BINANGUN</option>
+                                <option value="8" >KEL. BANYU REJO</option>
+                                <option value="8" >KEL. LUMBUNG REJO</option>
+                                <option value="8" >YOGYAKARTA</option>
+                              </select><i></i>
+                      </label>
+                  </section>
+</div>
+<div class="row">
+                  <section class="col col-md-1">
+                                        <p>Jenis Penyetoran</p>
+                                    </section>
+                                    <section class="col col-md-3">
+                                        <label class="select">
+                                            <select class="select2" id="jenis_penyetoran" name="jenis_penyetoran" disabled="disabled">
+                                                <option value="" >SKPD</option>
+                                                <option value="" >SKPD-A</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-1">
+                                       <p>Nomor Surat</p>
+                                  </section>
+                                  <section class="col col-sm-3">
+                                      <label class="input">
+                                         <input type="text" onkeyup="validAngka(this)">
+                                      </label>
+                                  </section>
+</div>                                            
+<div class="row">
+                                <footer id="footer_cetakdata">
+                  <section class="col col-md-2">
+                      <button class="btn btn-sm btn-primary" style="float: left;">
+                          <i class="fa fa-search"></i> Cari
+                      </button>
+                  </section>
+                                </footer>
+                  </div>
+                                
+                </fieldset>     
+                        
+              </form>
+
+</div>
+<!-- end widget content -->
+</div>
+<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- WIDGET END -->
+</div>
+<!-- end row -->
+
+</section>
+<section id="" class="">
+  <!-- row -->
+  <div class="row">
+          <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+          <div class="jarviswidget jarviswidget-color-teal" id="wid-id-2" 
+            data-widget-editbutton="false"
+            data-widget-deletebutton="false"
+            data-widget-custombutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-colorbutton="false" 
+            data-widget-togglebutton="false"      
+            >
+            <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+
+            -->
+            <header>
+              <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+              <h2> Tabel Cetak Kartu Piutang</h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+              <!-- widget edit box -->
+              <div class="jarviswidget-editbox">
+                <!-- This area used as dropdown edit box -->
+
+              </div>
+              <!-- end widget edit box -->
+
+              <!-- widget content -->
+                <div class="row">
+                  <table width="100%" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox" id="dt_basic">
+                    <thead>  
+                      <tr>
+                        <th width="10%" data-hide="phone">
+                                <div class="center">
+                                    <label class="checkbox">
+                                        <input checked="" type="checkbox" name="cbx-all" onclick="cekAll(this)">
+                                        <i></i> All
+                                    </label>
+                                </div>
+                            </th>
+                        <th>Tahun</th>
+                        <th>Bulan</th>
+                        <th>Tgl. SKPDKB</th>
+                        <th>NOPOK</th>
+                        <th>Ke</th>
+                        <th>Nama BU</th>
+                        <th>No KB</th>
+                        <th>Bunga SKPDKB</th>
+                        <th>RP SKPDKB</th>
+                        <th>Total Angsuran</th>
+                        <th>Sisa Angsuran</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td ><input type="checkbox"></td>
+                        <td>1</td>
+                        <td>12</td>
+                        <td>31/10/203</td>
+                        <td>1264</td>
+                        <td>HOTEL WILIS</td>
+                        <td>196</td>
+                        <td>Rp 597.442</td>
+                        <td>RP 1.861.042</td>
+                        <td>558000</td>
+                        <td>1303042</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+            </div>
+              <!-- end widget content -->
+
+          </div>
+            <!-- end widget div -->
+
+        </article>
+  </div>
+</section>
+<section id="" class="">
+  <!-- row -->
+  <div class="row">
+          <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-teal" id="wid-id-2" 
+      data-widget-editbutton="false"
+      data-widget-deletebutton="false"
+      data-widget-custombutton="false"
+      data-widget-fullscreenbutton="false"
+      data-widget-colorbutton="false" 
+      data-widget-togglebutton="false"      
+      >
+        <!-- widget options:
+        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+        data-widget-colorbutton="false"
+        data-widget-editbutton="false"
+        data-widget-togglebutton="false"
+        data-widget-deletebutton="false"
+        data-widget-fullscreenbutton="false"
+        data-widget-custombutton="false"
+        data-widget-collapsed="true"
+        data-widget-sortable="false"
+
+        -->
+        <header>
+          <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+          <h2> Tabel 2 Cetak Kartu Piutang</h2>
+
+        </header>
+        <div class="row">
+        <section class="col col-sm0">
+                              <button type="button" class="btn btn-sm btn-primary" onclick="cetak()">
+                              <i class="fa fa-print"></i> Cetak Kartu Piutang
+                              </button>
+                            </section>
+        </div>
+        <!-- widget div-->
+        <div>
+
+          <!-- widget edit box -->
+          <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+
+          </div>
+          <!-- end widget edit box -->
+
+          <!-- widget content -->
+            <div class="row">
+              <table width="100%" class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox" id="dt_basic">
+                <thead> 
+                  <tr>
+                    <th>THP</th>
+                    <th>BLP</th>
+                    <th>NOPOK</th>
+                    <th>THBSKP</th>
+                    <th>BLBSKP</th>
+                    <th>HRBSKP</th>
+                    <th>RPANG</th>
+                    <th>RPSET</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>12</td>
+                    <td>31/10/203</td>
+                    <td>1264</td>
+                    <td>HOTEL WILIS</td>
+                    <td>196</td>
+                    <td>Rp 597.442</td>
+                    <td>RP 1.861.042</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            </div>
+          <!-- end widget content -->
+
+        </div>
+        <!-- end widget div -->
+    </article>
+   </div>
+</section>
+
+
+<script type="text/javascript">
+    pageSetUp();
+    function validAngka(a)
+{
+    if(!/^[0-9.]+$/.test(a.value))
+    {
+    a.value = a.value.substring(0,a.value.length-1000000000);
+    }
+}
+
+
+
+</script>

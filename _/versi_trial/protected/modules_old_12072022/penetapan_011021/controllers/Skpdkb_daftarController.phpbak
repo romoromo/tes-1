@@ -1,0 +1,341 @@
+<?php
+
+class Skpdkb_daftarController extends Controller
+{
+	public function actionIndex()
+	{
+		$data['rek'] = Yii::app()->db->createCommand('
+			SELECT
+			*
+			FROM
+			TBLREKENING
+			WHERE
+			TBLREKENING_REKPAJAK = 1
+			AND TBLREKENING_REKPAD = 1
+			AND TBLREKENING_REKJENIS = 0
+			ORDER BY
+			TBLREKENING_REKPENDAPATAN,
+			TBLREKENING_REKPAD,
+			TBLREKENING_REKPAJAK,
+			TBLREKENING_REKAYAT,
+			TBLREKENING_REKJENIS
+			')->queryAll();
+		$this->renderPartial('index', array('data'=>$data));
+	}
+
+	public function actionCetak()
+	{
+		$TBLREKENING_KODE = isset($_REQUEST['TBLREKENING_KODE']) && !empty($_REQUEST['TBLREKENING_KODE']) ? $_REQUEST['TBLREKENING_KODE'] : '';
+		$TBLPENDATAAN_THNPAJAK = isset($_REQUEST['TBLPENDATAAN_THNPAJAK']) && !empty($_REQUEST['TBLPENDATAAN_THNPAJAK']) ? $_REQUEST['TBLPENDATAAN_THNPAJAK'] : '';
+		$THNKURANGBAYAR = isset($_REQUEST['THNKURANGBAYAR']) && !empty($_REQUEST['THNKURANGBAYAR']) ? $_REQUEST['THNKURANGBAYAR'] : '';
+		$BLNKURANGBAYAR = isset($_REQUEST['BLNKURANGBAYAR']) && !empty($_REQUEST['BLNKURANGBAYAR']) ? $_REQUEST['BLNKURANGBAYAR'] : '';
+		$TGLKURANGBAYAR = isset($_REQUEST['TGLKURANGBAYAR']) && !empty($_REQUEST['TGLKURANGBAYAR']) ? $_REQUEST['TGLKURANGBAYAR'] : '';
+
+		/*$TBLREKENING_KODE = !empty(DMOrcl::getRequest('TBLREKENING_KODE')) ? DMOrcl::getRequest('TBLREKENING_KODE') : '';
+		$TBLPENDATAAN_THNPAJAK = !empty(DMOrcl::getRequest('TBLPENDATAAN_THNPAJAK')) ? DMOrcl::getRequest('TBLPENDATAAN_THNPAJAK') : '';
+		
+		$THNKURANGBAYAR = !empty(DMOrcl::getRequest('THNKURANGBAYAR')) ? DMOrcl::getRequest('THNKURANGBAYAR') : '';
+		$BLNKURANGBAYAR = !empty(DMOrcl::getRequest('BLNKURANGBAYAR')) ? DMOrcl::getRequest('BLNKURANGBAYAR') : '';
+		$TGLKURANGBAYAR = !empty(DMOrcl::getRequest('TGLKURANGBAYAR')) ? DMOrcl::getRequest('TGLKURANGBAYAR') : '';*/
+
+		if ($TBLREKENING_KODE=='4.1.1.1.0') {
+			$NAMATABEL = 'TBLDAFTHOTEL';
+		}
+
+		/*$sql = '
+		SELECT
+			TBLDAFTAR.*, '.$NAMATABEL.'.*
+		FROM
+			TBLDAFTAR
+		INNER JOIN '.$NAMATABEL.' ON TBLDAFTAR.TBLDAFTAR_NOPOK = '.$NAMATABEL.'.TBLDAFTAR_NOPOK
+		WHERE
+			NVL (TBLDAFTHOTEL_REGKURANGBAYAR, 0) > 0
+		AND '.$NAMATABEL.'_THNKURANGBAYAR = '.$THNKURANGBAYAR.'
+		AND '.$NAMATABEL.'_BLNKURANGBAYAR = '.$BLNKURANGBAYAR.'
+		AND '.$NAMATABEL.'_TGLKURANGBAYAR = '.$TGLKURANGBAYAR.'
+		AND TBLPENDATAAN_THNPAJAK = '.$TBLPENDATAAN_THNPAJAK.'
+		ORDER BY
+			TO_NUMBER (TO_CHAR(NVL('.$NAMATABEL.'_REGKURANGBAYAR, 0)))
+		';*/
+
+		$select = "TBLDAFTAR.*, ".$NAMATABEL.".*";
+
+        $from = "TBLDAFTAR";
+
+        $otherquery = array(
+             'join_'.$NAMATABEL.''=>array($NAMATABEL,'TBLDAFTAR.TBLDAFTAR_NOPOK = '.$NAMATABEL.'.TBLDAFTAR_NOPOK')
+             ,'order'=> 'TO_NUMBER (TO_CHAR(NVL('.$NAMATABEL.'_REGKURANGBAYAR, 0)))'
+             //'leftjoin_REFBADANUSAHA'=>array('TBLDAFTAR','TBLDAFTAR.REFBADANUSAHA_IDPEMILIK=REFBADANUSAHA.REFBADANUSAHA_ID')
+        );
+
+        $filter = array(
+            'EQ__'.$NAMATABEL.'_THNKURANGBAYAR' => $THNKURANGBAYAR
+			,'EQ__'.$NAMATABEL.'_BLNKURANGBAYAR' => $BLNKURANGBAYAR
+			,'EQ__'.$NAMATABEL.'_TGLKURANGBAYAR' => $TGLKURANGBAYAR
+			,'EQ__TBLPENDATAAN_THNPAJAK' => $TBLPENDATAAN_THNPAJAK
+        );
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['cetak'] = DBFetch::query($arrayConfig);
+		// echo "string";exit;
+
+		// $data['rek'] = Yii::app()->db->createCommand( $sql )->queryAll();
+
+		$this->renderPartial('cetak-daftar-skpdkb', array('data'=>$data));
+	}
+
+	public function actionCetakWord()
+	{
+		$TBLREKENING_KODE = isset($_REQUEST['TBLREKENING_KODE']) && !empty($_REQUEST['TBLREKENING_KODE']) ? $_REQUEST['TBLREKENING_KODE'] : '';
+		$TBLPENDATAAN_THNPAJAK = isset($_REQUEST['TBLPENDATAAN_THNPAJAK']) && !empty($_REQUEST['TBLPENDATAAN_THNPAJAK']) ? $_REQUEST['TBLPENDATAAN_THNPAJAK'] : '';
+		$THNKURANGBAYAR = isset($_REQUEST['THNKURANGBAYAR']) && !empty($_REQUEST['THNKURANGBAYAR']) ? $_REQUEST['THNKURANGBAYAR'] : '';
+		$BLNKURANGBAYAR = isset($_REQUEST['BLNKURANGBAYAR']) && !empty($_REQUEST['BLNKURANGBAYAR']) ? $_REQUEST['BLNKURANGBAYAR'] : '';
+		$TGLKURANGBAYAR = isset($_REQUEST['TGLKURANGBAYAR']) && !empty($_REQUEST['TGLKURANGBAYAR']) ? $_REQUEST['TGLKURANGBAYAR'] : '';
+
+		/*$TBLREKENING_KODE = !empty(DMOrcl::getRequest('TBLREKENING_KODE')) ? DMOrcl::getRequest('TBLREKENING_KODE') : '';
+		$TBLPENDATAAN_THNPAJAK = !empty(DMOrcl::getRequest('TBLPENDATAAN_THNPAJAK')) ? DMOrcl::getRequest('TBLPENDATAAN_THNPAJAK') : '';
+		
+		$THNKURANGBAYAR = !empty(DMOrcl::getRequest('THNKURANGBAYAR')) ? DMOrcl::getRequest('THNKURANGBAYAR') : '';
+		$BLNKURANGBAYAR = !empty(DMOrcl::getRequest('BLNKURANGBAYAR')) ? DMOrcl::getRequest('BLNKURANGBAYAR') : '';
+		$TGLKURANGBAYAR = !empty(DMOrcl::getRequest('TGLKURANGBAYAR')) ? DMOrcl::getRequest('TGLKURANGBAYAR') : '';*/
+
+		if ($TBLREKENING_KODE=='4.1.1.1.0') {
+			$NAMATABEL = 'TBLDAFTHOTEL';
+			$NAMAPAJAK = 'PAJAK HOTEL';
+		} else if ($TBLREKENING_KODE=='4.1.1.2.0') {
+			$NAMATABEL = 'TBLDAFTRMAKAN';
+			$NAMAPAJAK = 'PAJAK RESTORAN';
+		} else if ($TBLREKENING_KODE=='4.1.1.3.0') {
+			$NAMATABEL = 'TBLDAFTHIBURAN';
+			$NAMAPAJAK = 'PAJAK HIBURAN';
+		} else if ($TBLREKENING_KODE=='4.1.1.4.0') {
+			$NAMATABEL = 'TBLDAFTREKLAME';
+			$NAMAPAJAK = 'PAJAK REKLAME';
+		} else if ($TBLREKENING_KODE=='4.1.1.7.0') {
+			$NAMATABEL = 'TBLDAFTPARKIR';
+			$NAMAPAJAK = 'PAJAK PARKIR';
+		} else if ($TBLREKENING_KODE=='4.1.1.8.0') {
+			$NAMATABEL = 'TBLDAFTTANAH';
+			$NAMAPAJAK = 'PAJAK AIR TANAH';
+		} else if ($TBLREKENING_KODE=='4.1.1.9.0') {
+			$NAMATABEL = 'TBLDAFTBURUNG';
+			$NAMAPAJAK = 'PAJAK SARANG WALET';
+		} else {
+
+		}
+
+		/*$sql = '
+		SELECT
+			TBLDAFTAR.*, '.$NAMATABEL.'.*
+		FROM
+			TBLDAFTAR
+		INNER JOIN '.$NAMATABEL.' ON TBLDAFTAR.TBLDAFTAR_NOPOK = '.$NAMATABEL.'.TBLDAFTAR_NOPOK
+		WHERE
+			NVL (TBLDAFTHOTEL_REGKURANGBAYAR, 0) > 0
+		AND '.$NAMATABEL.'_THNKURANGBAYAR = '.$THNKURANGBAYAR.'
+		AND '.$NAMATABEL.'_BLNKURANGBAYAR = '.$BLNKURANGBAYAR.'
+		AND '.$NAMATABEL.'_TGLKURANGBAYAR = '.$TGLKURANGBAYAR.'
+		AND TBLPENDATAAN_THNPAJAK = '.$TBLPENDATAAN_THNPAJAK.'
+		ORDER BY
+			TO_NUMBER (TO_CHAR(NVL('.$NAMATABEL.'_REGKURANGBAYAR, 0)))
+		';*/
+
+		$select = "TBLDAFTAR.*
+		,".$NAMATABEL.".TBLPENDATAAN_THNPAJAK
+		,".$NAMATABEL.".TBLPENDATAAN_BLNPAJAK
+		,".$NAMATABEL.".TBLPENDATAAN_TGLPAJAK
+		,".$NAMATABEL.".".$NAMATABEL."_TGLKURANGBAYAR
+		,".$NAMATABEL.".".$NAMATABEL."_BLNKURANGBAYAR
+		,".$NAMATABEL.".".$NAMATABEL."_THNKURANGBAYAR
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_REGKURANGBAYAR,0) AS ".$NAMATABEL."_REGKURANGBAYAR 
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_PAJAKPERIKSA,0) AS ".$NAMATABEL."_PAJAKPERIKSA 
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_DENDAKRGBAYAR,0) AS ".$NAMATABEL."_DENDAKRGBAYAR 
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_BUNGAKRGBAYAR,0) AS ".$NAMATABEL."_BUNGAKRGBAYAR 
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_RUPIAHSETOR,0) AS ".$NAMATABEL."_RUPIAHSETOR 
+		,NVL(".$NAMATABEL.".".$NAMATABEL."_RUPIAHKRGBAYAR,0) AS ".$NAMATABEL."_RUPIAHKRGBAYAR ";
+
+        $from = "TBLDAFTAR";
+
+        $otherquery = array(
+             'join_'.$NAMATABEL.''=>array($NAMATABEL,'TBLDAFTAR.TBLDAFTAR_NOPOK = '.$NAMATABEL.'.TBLDAFTAR_NOPOK')
+             ,'order'=> 'TO_NUMBER (TO_CHAR(NVL('.$NAMATABEL.'_REGKURANGBAYAR, 0)))'
+             //'leftjoin_REFBADANUSAHA'=>array('TBLDAFTAR','TBLDAFTAR.REFBADANUSAHA_IDPEMILIK=REFBADANUSAHA.REFBADANUSAHA_ID')
+        );
+
+        $filter = array(
+            'EQ__'.$NAMATABEL.'_THNKURANGBAYAR' => $THNKURANGBAYAR
+			,'EQ__'.$NAMATABEL.'_BLNKURANGBAYAR' => $BLNKURANGBAYAR
+			,'EQ__'.$NAMATABEL.'_TGLKURANGBAYAR' => $TGLKURANGBAYAR
+			,'EQ__TBLPENDATAAN_THNPAJAK' => $TBLPENDATAAN_THNPAJAK
+        );
+
+        $arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'otherquery'=>$otherquery,'mode'=>'LIST');
+        $data['cetak'] = DBFetch::query($arrayConfig);
+		// echo "string";exit;
+
+		// $data['rek'] = Yii::app()->db->createCommand( $sql )->queryAll();
+
+		$path_tpl =  dirname(Yii::app()->basePath) . DIRECTORY_SEPARATOR . 'file' . DIRECTORY_SEPARATOR . 'tpl_skpdkb' . DIRECTORY_SEPARATOR;
+		$namatpl = $path_tpl . 'daftar_skpdkb.docx';
+
+		Yii::import('ext.DMOpenTBS',true);
+		Yii::import('ext.LokalIndonesia');
+		DMOpenTBS::init();
+		$otbs = new clsTinyButStrong;
+
+		// Useful for debugging purposes. Displays the errors
+		$otbs->NoErr = 0;
+		$otbs->Plugin(TBS_INSTALL, OPENTBS_PLUGIN); // load the OpenTBS plugin
+
+		$template = $namatpl;
+		$otbs->LoadTemplate($template, OPENTBS_ALREADY_UTF8); // load the template
+
+		// Delete a sheet 
+		// $otbs->PlugIn(OPENTBS_DELETE_SHEETS, 'Delete me'); 
+
+
+		// Display a sheet (make it visible) 
+		// $otbs->PlugIn(OPENTBS_DISPLAY_SHEETS, 'Display me'); 
+
+		// Change the current sheet 
+		// $otbs->PlugIn(OPENTBS_SELECT_SHEET, 2); 
+
+		// A recordset for merging tables
+
+		//INI CODING QUERY CETAK WORD
+
+			
+
+		$dt = array();
+		$rows = array();
+		
+		$totalkb = array('totalkb'=>0); $totalsetor = array('totalsetor'=>0); $totalbunga = array('totalbunga'=>0); $totaldenda = array('totaldenda'=>0); $totalperiksa = array('totalperiksa'=>0); $no=1; foreach ($data['cetak'] as $kolom) :
+
+			$dt['no'] = $no++;
+			$dt['tglkb'] = $kolom[''.$NAMATABEL.'_TGLKURANGBAYAR'] .'-'. $kolom[''.$NAMATABEL.'_BLNKURANGBAYAR'] .'-20'. $kolom[''.$NAMATABEL.'_THNKURANGBAYAR'];
+			// $dt['tglkb'] = '';
+			$dt['nokb'] = $kolom[''.$NAMATABEL.'_REGKURANGBAYAR'];
+			$dt['namabadan'] = $kolom['TBLDAFTAR_BADANUSAHANAMA'];
+
+			// $dt['lok'] = $kolom['TBLPENDATAAN_PAJAKKE'];
+			// $dt['jumlahrekl'] = $kolom['TBLDAFTREKLAME_JMLHREKLAME']; 
+			// $totaljumrek['totaljumrek'] += $kolom['TBLDAFTREKLAME_JMLHREKLAME'];
+			// $totalpajak['totalpajak'] += $kolom['TBLDAFTREKLAME_PAJAK'];
+
+			$dt['thn'] = $kolom['TBLPENDATAAN_THNPAJAK'];
+			$dt['bln'] = $kolom['TBLPENDATAAN_BLNPAJAK'];
+			$dt['tgl'] = $kolom['TBLPENDATAAN_TGLPAJAK'];
+
+			$dt['pjkperiksa'] = LokalIndonesia::ribuan($kolom[''.$NAMATABEL.'_PAJAKPERIKSA']);
+			$dt['dendakb'] = LokalIndonesia::ribuan($kolom[''.$NAMATABEL.'_DENDAKRGBAYAR']);
+			$dt['bungakb'] = LokalIndonesia::ribuan($kolom[''.$NAMATABEL.'_BUNGAKRGBAYAR']);
+			$dt['rupiahsetor'] = LokalIndonesia::ribuan($kolom[''.$NAMATABEL.'_RUPIAHSETOR']);
+			$dt['rupiahkb'] = LokalIndonesia::ribuan($kolom[''.$NAMATABEL.'_RUPIAHKRGBAYAR']);
+
+			$totalperiksa['totalperiksa'] += $kolom[''.$NAMATABEL.'_PAJAKPERIKSA'];
+			$totaldenda['totaldenda'] += $kolom[''.$NAMATABEL.'_DENDAKRGBAYAR'];
+			$totalbunga['totalbunga'] += $kolom[''.$NAMATABEL.'_BUNGAKRGBAYAR'];
+			$totalsetor['totalsetor'] += $kolom[''.$NAMATABEL.'_RUPIAHSETOR'];
+			$totalkb['totalkb'] += $kolom[''.$NAMATABEL.'_RUPIAHKRGBAYAR'];
+
+			// $thnentri = $kolom['TBLDAFTREKLAME_THNENTRI'];
+			// $tglentri = $kolom['TBLDAFTREKLAME_TGLENTRI'];
+			// $blnentri = $kolom['TBLDAFTREKLAME_BLNENTRI'];
+
+			// $dt['namarek'] = $kolom['NMREKENING'];
+
+			// $dt['ket1'] = $kolom['TBLDAFTREKLAME_KETERANGAN1'];
+			// $dt['ket2'] = $kolom['TBLDAFTREKLAME_KETERANGAN2'];
+
+			// $dt['wkt'] = $kolom['TBLDAFTREKLAME_JUMLAHHARI'];
+			// $dt['ka'] = $kolom['TBLDAFTREKLAME_SKORKAWASAN'];
+			// $dt['fj'] = $kolom['FJ'];
+			// $dt['st'] = $kolom['ST'];
+			// $dt['sp'] = $kolom['REFKETINGGIAN_SKOR'];
+			// $dt['pjg'] = floatval($kolom['TBLDAFTREKLAME_PANJANG']);
+			// $dt['lebar'] = floatval($kolom['TBLDAFTREKLAME_LEBAR']);
+			// $dt['pjgxlebar'] = $kolom['TBLDAFTREKLAME_PANJANG']*$kolom['TBLDAFTREKLAME_LEBAR'];
+			// $dt['niti'] = $kolom['TBLDAFTREKLAME_NILAISTRATEGIS'];
+			// $dt['index'] = $kolom['REFSUDUTPANDANG_SKOR'];
+			// $dt['biaya'] = LokalIndonesia::ribuan($kolom['TBLDAFTREKLAME_RPTARIF']);
+			// $dt['harga'] = LokalIndonesia::ribuan($kolom['HARGA']);
+			// $dt['pajak'] = LokalIndonesia::ribuan($kolom['TBLDAFTREKLAME_PAJAK']);
+
+			// $dt['thnpajak'] = $kolom['TBLPENDATAAN_THNPAJAK'];
+			// $dt['blnpajak'] = $kolom['TBLPENDATAAN_BLNPAJAK'];
+			// $dt['tglpajak'] = $kolom['TBLPENDATAAN_TGLPAJAK'];
+
+			$dt['npwpd'] = $kolom['TBLDAFTAR_JENISPENDAPATAN'] .'.'. $kolom['TBLDAFTAR_GOLONGAN'] .'.'. sprintf("%07d", $kolom['TBLDAFTAR_NOPOK']) .'.'. sprintf("%02d",$kolom['TBLKECAMATAN_IDBADANUSAHA']) .'.'. sprintf("%02d",$kolom['TBLKELURAHAN_IDBADANUSAHA']);
+
+		array_push($rows, $dt);
+
+		endforeach;
+
+		$header = array();
+
+		$header['totalperiksa'] = LokalIndonesia::ribuan($totalperiksa['totalperiksa']);
+		$header['totaldenda'] = LokalIndonesia::ribuan($totaldenda['totaldenda']);
+		$header['totalbunga'] = LokalIndonesia::ribuan($totalbunga['totalbunga']);
+		$header['totalsetor'] = LokalIndonesia::ribuan($totalsetor['totalsetor']);
+		$header['totalkb'] = LokalIndonesia::ribuan($totalkb['totalkb']);
+		// $header['totalpajak'] = LokalIndonesia::ribuan($totalpajak['totalpajak']);
+		$header['datenow'] = date('d') .' '. LokalIndonesia::getbulan(date('m')) .' '. date('Y');
+
+		$thnpajak = isset($_REQUEST['TBLPENDATAAN_THNPAJAK']) && !empty($_REQUEST['TBLPENDATAAN_THNPAJAK']) ? (int)$_REQUEST['TBLPENDATAAN_THNPAJAK'] : '';
+		$blnpajak = isset($_REQUEST['TBLPENDATAAN_BLNPAJAK']) && !empty($_REQUEST['TBLPENDATAAN_BLNPAJAK']) ? (int)$_REQUEST['TBLPENDATAAN_BLNPAJAK'] : '';
+		$tglpajak = isset($_REQUEST['TBLPENDATAAN_TGLPAJAK']) && !empty($_REQUEST['TBLPENDATAAN_TGLPAJAK']) ? (int)$_REQUEST['TBLPENDATAAN_TGLPAJAK'] : '';
+
+		$GLOBALS['namapajak'] = $NAMAPAJAK;
+
+		if ($thnpajak=='') {
+			$GLOBALS['tahunpajak'] = '0';
+		} else {
+			$GLOBALS['tahunpajak'] = '20'. $thnpajak;
+		}
+		// $GLOBALS['tglentri'] = $tgl_spt;
+
+		//SAMPAI SINI QUERYNYAhttps://stackoverflow.com/questions/19263954/opentbs-merge-2-rows-in-word-document-table-simultaneously
+
+		// var_dump($data);
+		// echo json_encode($rows);Yii::app()->end();
+		// echo json_encode($rows);
+
+		// Merge data in the first sheet 
+		// $npwpd = $data['TBLDAFTAR_NOPOK'];
+		$namafileDL = "DAFTAR-SKPDKB.docx";
+		$otbs->MergeBlock('dt', $rows); 
+		$otbs->MergeField('header', $header); 
+		// $otbs->MergeField('setoran', $setoran); 
+		// $otbs->PlugIn(OPENTBS_DEBUG_XML_CURRENT); // debug the template
+
+		$otbs->Show(OPENTBS_DOWNLOAD, $namafileDL);
+		Yii::app()->end();
+	}
+
+	// Uncomment the following methods and override them if needed
+	/*
+	public function filters()
+	{
+		// return the filter configuration for this controller, e.g.:
+		return array(
+			'inlineFilterName',
+			array(
+				'class'=>'path.to.FilterClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+
+	public function actions()
+	{
+		// return external action classes, e.g.:
+		return array(
+			'action1'=>'path.to.ActionClass',
+			'action2'=>array(
+				'class'=>'path.to.AnotherActionClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+	*/
+}

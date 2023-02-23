@@ -1,0 +1,201 @@
+<?php
+
+class HiburanController extends Controller
+{
+	public function actionIndex()
+	{
+		$data['theme_baseurl'] = Yii::app()->theme->baseUrl;
+		
+		$select = '*';
+		$from = 'TREKENING';
+		$filter = array(
+			 'LK__TREKENING_KODE' => '41103'
+			,'EQ__TREKENING_LEVEL' => '1'
+		);
+
+		$otherquery = array();
+
+		$arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'filterOR'=>true,'otherquery'=>$otherquery,'mode'=>'LIST');
+		$data['rek'] = DBFetch::query($arrayConfig);
+
+
+		$this->renderPartial('index',array('data'=>$data));
+	}
+
+	public function actionautocompletewphiburan()
+	{
+		header('Content-type: text/json');
+		header('Content-type: application/json');
+		
+		$query = trim($_REQUEST['query']);
+
+		$select = '*';
+		$from = 'TNPWPD';
+		$filter = array(
+			'LK__TNPWPD_MILIKNAMA' => $query
+			,'LK__TNPWPD_NPWPD' => $query
+			,'LK__TNPWPD_NOPOK' => $query
+		);
+
+		$filter_AND = array(
+			'LK__TREKENING_KODE' => '41103'
+			// ,'EQ__tblsubyek_jenisusaha' => $jenisusaha
+			// ,'EQ__tblsubyek_isaktif' => "T"
+		);
+
+		$otherquery = array(
+			 'leftJoin'=>array('TSUBYEK','TSUBYEK.TSUBYEK_ID=TNPWPD.TSUBYEK_ID')
+			,'limit'=> 30
+			,'order'=> 'TNPWPD_NPWPD ASC'
+		);
+
+		$arrayConfig = array('select'=>$select,'from'=>$from,'filter'=>$filter,'filter_AND'=>$filter_AND,'filterOR'=>true,'otherquery'=>$otherquery,'mode'=>'LIST');
+		$results = DBFetch::query($arrayConfig);
+
+		$suggestions = array();
+		 
+		foreach($results as $result)
+		{
+			$suggestions[] = array(
+			"value" => $result['TNPWPD_NOPOK']. ' | ' . $result['TNPWPD_NPWPD']. ' | ' . $result['TSUBYEK_MILIKNAMA']
+			,"data" => $result['TNPWPD_ID']
+			,"TSUBYEK_MILIKNAMA" => $result['TSUBYEK_MILIKNAMA']
+			,"TNPWPD_NPWPD" => $result['TNPWPD_NPWPD']
+			,"TSUBYEK_MILIKALAMAT" => $result['TSUBYEK_MILIKALAMAT']
+			,"TNPWPD_NOPOK" => $result['TNPWPD_NOPOK']
+			,"TREKENINGSUB_KODE" => $result['TREKENINGSUB_KODE']
+			,"TBLKECAMATAN_ID" => $result['TBLKECAMATAN_ID']
+			,"TBLKELURAHAN_ID" => $result['TBLKELURAHAN_ID']
+		);
+		}
+		 
+		echo CJSON::encode(array('suggestions' => $suggestions));
+	}
+
+	public function actionGetKodeRek()
+	{
+		$kodesubrek = $_REQUEST['kodesubrek'];
+		$data = TRekening::model()->find('TREKENING_KODE=:kode', array(':kode'=>$kodesubrek));
+
+		echo CJSON::encode($data);
+	}
+
+	public function actionGetWPHiburan()
+	{
+		$NOPOKOK = $_REQUEST['nopokok'];
+		$THNPAJAK = substr($_REQUEST['THNPAJAK'], -2);
+		$BLNPAJAK = (int) $_REQUEST['BLNPAJAK'];
+
+		$data = Yii::app()->db->createCommand('SELECT * FROM TBLDAFTHIBURAN WHERE TBLDAFTHIBURAN_THNPAJAK ='.$THNPAJAK.' AND TBLDAFTHIBURAN_BLNPAJAK='.$BLNPAJAK.' AND TBLDAFTHIBURAN_NOPOK='.$NOPOKOK)->queryRow();
+		echo CJSON::encode($data);
+	}
+
+	public function actionSimpanHiburan()
+	{
+		Yii::import('ext.LokalIndonesia');
+
+		$TREKENINGSUB_KODE = isset($_REQUEST['TREKENINGSUB_KODE']) && !empty($_REQUEST['TREKENINGSUB_KODE']) ? $_REQUEST['TREKENINGSUB_KODE'] : 0;
+		$TBLDAFTHIBURAN_NOPOK = isset($_REQUEST['TBLDAFTHIBURAN_NOPOK']) && !empty($_REQUEST['TBLDAFTHIBURAN_NOPOK']) ? $_REQUEST['TBLDAFTHIBURAN_NOPOK'] : 0;
+		$TBLDAFTHIBURAN_THNPAJAK = isset($_REQUEST['TBLDAFTHIBURAN_THNPAJAK']) && !empty($_REQUEST['TBLDAFTHIBURAN_THNPAJAK']) ? $_REQUEST['TBLDAFTHIBURAN_THNPAJAK'] : 0;
+		$TBLDAFTHIBURAN_BLNPAJAK = isset($_REQUEST['TBLDAFTHIBURAN_BLNPAJAK']) && !empty($_REQUEST['TBLDAFTHIBURAN_BLNPAJAK']) ? $_REQUEST['TBLDAFTHIBURAN_BLNPAJAK'] : 0;
+		$TBLDAFTHIBURAN_TGLPAJAK = isset($_REQUEST['TBLDAFTHIBURAN_TGLPAJAK']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLPAJAK']) ? $_REQUEST['TBLDAFTHIBURAN_TGLPAJAK'] : 0;
+		$TBLDAFTHIBURAN_TGLSPTPD = isset($_REQUEST['TBLDAFTHIBURAN_TGLSPTPD']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLSPTPD']) ? $_REQUEST['TBLDAFTHIBURAN_TGLSPTPD'] : 0;
+		//$TBLDAFTHIBURAN_PENJUALANHARI = isset($_REQUEST['TBLDAFTHIBURAN_PENJUALANHARI'])!=0 ? $_REQUEST['TBLDAFTHIBURAN_PENJUALANHARI'] : 0;
+		$TBLDAFTHIBURAN_JUMLAHHARIJUAL = isset($_REQUEST['TBLDAFTHIBURAN_JUMLAHHARIJUAL']) && !empty($_REQUEST['TBLDAFTHIBURAN_JUMLAHHARIJUAL']) ? $_REQUEST['TBLDAFTHIBURAN_JUMLAHHARIJUAL'] : 0;
+		$TBLDAFTHIBURAN_OMSETPAJAK = isset($_REQUEST['TBLDAFTHIBURAN_OMSETPAJAK']) && !empty($_REQUEST['TBLDAFTHIBURAN_OMSETPAJAK']) ? $_REQUEST['TBLDAFTHIBURAN_OMSETPAJAK'] : 0;
+		$TBLDAFTHIBURAN_TGLMULAIJUAL = isset($_REQUEST['TBLDAFTHIBURAN_TGLMULAIJUAL']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLMULAIJUAL']) ? $_REQUEST['TBLDAFTHIBURAN_TGLMULAIJUAL'] : 0;
+		$TBLDAFTHIBURAN_TGLAKHIRJUAL = isset($_REQUEST['TBLDAFTHIBURAN_TGLAKHIRJUAL']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLAKHIRJUAL']) ? $_REQUEST['TBLDAFTHIBURAN_TGLAKHIRJUAL'] : 0;
+		$TBLDAFTHIBURAN_ISPEMBUKUAN = isset($_REQUEST['TBLDAFTHIBURAN_ISPEMBUKUAN']) && !empty($_REQUEST['TBLDAFTHIBURAN_ISPEMBUKUAN']) ? $_REQUEST['TBLDAFTHIBURAN_ISPEMBUKUAN'] : 0;
+		$TBLDAFTHIBURAN_ISKAS = isset($_REQUEST['TBLDAFTHIBURAN_ISKAS']) && !empty($_REQUEST['TBLDAFTHIBURAN_ISKAS']) ? $_REQUEST['TBLDAFTHIBURAN_ISKAS'] : 0;
+		$TBLDAFTHIBURAN_ISNOTA = isset($_REQUEST['TBLDAFTHIBURAN_ISNOTA']) && !empty($_REQUEST['TBLDAFTHIBURAN_ISNOTA']) ? $_REQUEST['TBLDAFTHIBURAN_ISNOTA'] : 0;
+		$TBLDAFTHIBURAN_PAJAK = isset($_REQUEST['TBLDAFTHIBURAN_PAJAK']) && !empty($_REQUEST['TBLDAFTHIBURAN_PAJAK']) ? $_REQUEST['TBLDAFTHIBURAN_PAJAK'] : 0;
+		$TBLDAFTHIBURAN_BUNGASPTPD = isset($_REQUEST['TBLDAFTHIBURAN_BUNGASPTPD']) && !empty($_REQUEST['TBLDAFTHIBURAN_BUNGASPTPD']) ? $_REQUEST['TBLDAFTHIBURAN_BUNGASPTPD'] : 0;
+		$TBLDAFTHIBURAN_RUPIAHSETOR = isset($_REQUEST['TBLDAFTHIBURAN_RUPIAHSETOR']) && !empty($_REQUEST['TBLDAFTHIBURAN_RUPIAHSETOR']) ? $_REQUEST['TBLDAFTHIBURAN_RUPIAHSETOR'] : 0;
+		$TBLDAFTHIBURAN_TGLTERIMA = isset($_REQUEST['TBLDAFTHIBURAN_TGLTERIMA']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLTERIMA']) ? $_REQUEST['TBLDAFTHIBURAN_TGLTERIMA'] : 0;
+		$TBLDAFTHIBURAN_TGLBATASSPTPD = isset($_REQUEST['TBLDAFTHIBURAN_TGLBATASSPTPD']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLBATASSPTPD']) ? $_REQUEST['TBLDAFTHIBURAN_TGLBATASSPTPD'] : 0;
+		$TBLDAFTHIBURAN_TGLENTRI = isset($_REQUEST['TBLDAFTHIBURAN_TGLENTRI']) && !empty($_REQUEST['TBLDAFTHIBURAN_TGLENTRI']) ? $_REQUEST['TBLDAFTHIBURAN_TGLENTRI'] : 0;
+		$TBLKECAMATAN_ID = isset($_REQUEST['idkecamatan']) && !empty($_REQUEST['idkecamatan']) ? $_REQUEST['idkecamatan'] : 0;
+		$TBLKELURAHAN_ID = isset($_REQUEST['idkelurahan']) && !empty($_REQUEST['idkelurahan']) ? $_REQUEST['idkelurahan'] : 0;
+		$TBLDAFTHIBURAN_GOLONGAN = 4;
+		$exp_TGLSPTPD = explode('-', $TBLDAFTHIBURAN_TGLSPTPD);
+		$exp_TGLMULAIJUAL = explode('-', $TBLDAFTHIBURAN_TGLMULAIJUAL);
+		$exp_TGLAKHIRJUAL = explode('-', $TBLDAFTHIBURAN_TGLAKHIRJUAL);
+		$exp_TGLTERIMA = explode('-', $TBLDAFTHIBURAN_TGLTERIMA);
+		$exp_TGLBATASSPTPD = explode('-', $TBLDAFTHIBURAN_TGLBATASSPTPD);
+		$exp_TGLENTRI = explode('-', $TBLDAFTHIBURAN_TGLENTRI);
+
+		
+		$insert = Yii::app()->db->createCommand();
+		$simpan = $insert->insert('TBLDAFTHIBURAN', array(
+			'TBLDAFTHIBURAN_NOPOK' => $TBLDAFTHIBURAN_NOPOK,
+			'TBLKECAMATAN_ID' => $TBLKECAMATAN_ID,
+			'TBLKELURAHAN_ID' => $TBLKELURAHAN_ID,
+			'TBLDAFTHIBURAN_THNPAJAK' => substr($TBLDAFTHIBURAN_THNPAJAK, -2),
+			'TBLDAFTHIBURAN_BLNPAJAK' => $TBLDAFTHIBURAN_BLNPAJAK,
+			'TBLDAFTHIBURAN_TGLPAJAK' => $TBLDAFTHIBURAN_TGLPAJAK,
+			'TBLDAFTHIBURAN_TGLSPTPD' => $exp_TGLSPTPD[0],
+			'TBLDAFTHIBURAN_BLNSPTPD' => $exp_TGLSPTPD[1],
+			'TBLDAFTHIBURAN_THNSPTPD' => substr($exp_TGLSPTPD[2], -2),
+			'TBLDAFTHIBURAN_GOLONGAN' => $TBLDAFTHIBURAN_GOLONGAN,
+			//'TBLDAFTHIBURAN_PENJUALANHARI' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_PENJUALANHARI),
+			'TBLDAFTHIBURAN_JUMLAHHARIJUAL' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_JUMLAHHARIJUAL),
+			'TBLDAFTHIBURAN_OMSETPAJAK' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_OMSETPAJAK),
+			'TBLDAFTHIBURAN_TGLMULAIJUAL' => $exp_TGLMULAIJUAL[0],
+			'TBLDAFTHIBURAN_BLNMULAIJUAL' => $exp_TGLMULAIJUAL[1],
+			'TBLDAFTHIBURAN_THNMULAIJUAL' => substr($exp_TGLMULAIJUAL[2], -2),
+			'TBLDAFTHIBURAN_TGLAKHIRJUAL' => $exp_TGLAKHIRJUAL[0],
+			'TBLDAFTHIBURAN_BLNAKHIRJUAL' => $exp_TGLAKHIRJUAL[1],
+			'TBLDAFTHIBURAN_THNAKHIRJUAL' => substr($exp_TGLAKHIRJUAL[0], -2),
+			'TBLDAFTHIBURAN_ISPEMBUKUAN' => $TBLDAFTHIBURAN_ISPEMBUKUAN,
+			'TBLDAFTHIBURAN_ISKAS' => $TBLDAFTHIBURAN_ISKAS,
+			'TBLDAFTHIBURAN_ISNOTA' => $TBLDAFTHIBURAN_ISNOTA,
+			'TBLDAFTHIBURAN_PAJAK' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_PAJAK),
+			'TBLDAFTHIBURAN_BUNGASPTPD' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_BUNGASPTPD),
+			'TBLDAFTHIBURAN_RUPIAHSETOR' => LokalIndonesia::toAngka($TBLDAFTHIBURAN_RUPIAHSETOR),
+			'TBLDAFTHIBURAN_TGLTERIMA' => $exp_TGLTERIMA[0],
+			'TBLDAFTHIBURAN_BLNTERIMA' => $exp_TGLTERIMA[1],
+			'TBLDAFTHIBURAN_THNTERIMA' => substr($exp_TGLTERIMA[2], -2),
+			'TBLDAFTHIBURAN_TGLBATASSPTPD' => $exp_TGLBATASSPTPD[0],
+			'TBLDAFTHIBURAN_BLNBATASSPTPD' => $exp_TGLBATASSPTPD[1],
+			'TBLDAFTHIBURAN_THNBATASSPTPD' => substr($exp_TGLBATASSPTPD[2], -2),
+			'TBLDAFTHIBURAN_TGLENTRI' => $exp_TGLENTRI[0],
+			'TBLDAFTHIBURAN_BLNENTRI' => $exp_TGLENTRI[1],
+			'TBLDAFTHIBURAN_THNENTRI' => substr($exp_TGLENTRI[2], -2),
+			'TBLDAFTHIBURAN_REKURUSAN' => '1',
+			'TBLDAFTHIBURAN_REKPEMERINTAHAN' => '20',
+			'TBLDAFTHIBURAN_REKORGANISASI' => '1',
+			'TBLDAFTHIBURAN_REKPROGRAM' => '20',
+			'TBLDAFTHIBURAN_REKKEGIATAN' => '26',
+			'TBLDAFTHIBURAN_REKDINAS' => '0',
+			'TBLDAFTHIBURAN_REKBIDANG' => '0',
+			'TBLDAFTHIBURAN_REKPENDAPATAN' => '4',
+			'TBLDAFTHIBURAN_REKPAD' => '1',
+			'TBLDAFTHIBURAN_REKPAJAK' => '1',
+			'TBLDAFTHIBURAN_REKAYAT' => '3',
+			'TBLDAFTHIBURAN_REKJENIS' => substr($TREKENINGSUB_KODE, -1) ,
+
+		));
+
+		if ($simpan>0) {
+			echo CJSON::encode(array('status'=>'success'));
+		}
+		else{
+			echo CJSON::encode(array('status'=>'failed'));
+		}
+	}
+
+	public function actionCekPernahDaftar()
+	{
+		$NOPOKOK = $_REQUEST['nopokok'];
+		$THNPAJAK = substr($_REQUEST['THNPAJAK'], -2);
+		$BLNPAJAK = $_REQUEST['BLNPAJAK'];
+
+		$cek = Yii::app()->db->createCommand('SELECT COUNT(TBLDAFTHIBURAN_THNPAJAK) AS JML FROM TBLDAFTHIBURAN WHERE TBLDAFTHIBURAN_THNPAJAK ='.$THNPAJAK.' AND TBLDAFTHIBURAN_BLNPAJAK='.$BLNPAJAK.' AND TBLDAFTHIBURAN_NOPOK='.$NOPOKOK)->queryScalar();
+		if ($cek) {
+			echo CJSON::encode(array('status'=>'sudah'));
+		}
+		else{
+			echo CJSON::encode(array('status'=>'belum'));
+		}
+	}
+}

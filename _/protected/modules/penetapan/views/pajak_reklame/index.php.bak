@@ -1,0 +1,447 @@
+<?php define('ASSETS_URL', 'themes/smartadmin')?>
+
+<div class="well well-sm well-light text-center">
+	<h4><i class="fa fa-tasks"></i> Nota Perhitungan Reklame</h4>
+</div>
+
+<!--  -->
+<section>
+	<div class="well">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-body-toolbar">
+					<div class="pencarian" style="margin-top: -4px;">
+						<button class="btn btn-primary" data-toggle="modal" style="float: right;display:none;" id="button_cari" onclick="$('#cari').show(400);$('#button_tutup').show();$('#button_cari').hide();">
+							<i class="fa  fa-search"></i>	Pencarian / Filter Data
+						</button>	
+						<button class="btn btn-primary" data-toggle="modal" style="float: right; " onclick="$('#cari').hide(400);$('#button_cari').show();$('#button_tutup').hide();" id="button_tutup">
+							<i class="fa  fa-times"></i>	Tutup Pencarian / Filter
+						</button>
+					</div>					
+				</div>
+				<div class="widget-body slideInRight fast animated" id="cari" >
+					<form class="smart-form" id="form-cari">
+						<fieldset>
+							<section>
+								<div class="row">
+									<div class="col col-6">
+										<h3>Pencarian</h3>
+									</div>
+								</div>
+							</section>
+							
+							<div class="row">
+									<section class="col col-md-2">
+										<p>Tanggal Pajak </p>
+									</section>
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="number" value="<?= date('Y') ?>" name="param[TBLDAFTREKLAME_THNPAJAK]" id="TBLDAFTREKLAME_THNPAJAK">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Nomor Nota </p>
+									</section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="input-sm" type="number" id="TBLDAFTREKLAME_URUTSKPD" name="param[TBLDAFTREKLAME_URUTSKPD]">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Kecamatan </p>
+									</section>
+									<section class="col col-md-3">
+										<label class="select">
+										<select id="TBLKECAMATAN_ID" name="param[TBLKECAMATAN_ID]" class="select2">
+											<option value="" selected="">-- Pilih Kecamatan --</option>
+											<?php foreach ($data['kecamatan'] as $kec): ?>
+												<option value="<?=$kec['TBLKECAMATAN_ID']; ?>"><?=$kec['TBLKECAMATAN_NAMA']; ?></option>
+											<?php endforeach ?>
+										</select>
+									</label>
+									</section>
+								</div>
+
+								<br>
+
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Dengan Cara</p>
+									</section>
+									<section class="col col-md-3">
+										<label class="select">
+										<select id="TBLDAFTREKLAME_ISJNSPENETAPAN" name="param[TBLDAFTREKLAME_ISJNSPENETAPAN]" class="select2">
+											<option value="" selected="">-- Pilih Cara --</option>
+											<option value="Official Assesment"> O | Official Assesment</option>
+										</select>
+									</label>
+									</section>
+								</div>
+								<!-- <div class="row">
+									<section class="col col-md-2"></section>
+									<section class="col col-md-3">
+										<button type="button" class="btn btn-sm btn-sm btn-primary" onclick="cari()">
+											<i class="fa  fa-search"></i>&nbsp;Cari
+										</button>
+									</section>
+								</div> -->
+						
+								<header style="border-color: red;">Data Wajib Pajak</header><br>
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Tgl. Entry SPT</p>
+									</section>
+									<section class="col col-md-3">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" name="param[TBLDAFTREKLAME_TGLENTRI]" class="datepicker" data-dateformat="dd-mm-yy" id="TBLDAFTREKLAME_TGLENTRI">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Tgl. Cetak SKPD</p>
+									</section>
+									<section class="col col-md-3">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input value="<?= date('d-m-Y') ?>" type="text" name="param[TBLDAFTREKLAME_TGLSKPD]" class="datepicker" data-dateformat="dd-mm-yy" id="TBLDAFTREKLAME_TGLSKPD">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2">
+										<p>Tgl. Batas SKPD</p>
+									</section>
+									<section class="col col-md-3">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input value="<?= date('d-m-Y') ?>" type="text" name="param[TBLDAFTREKLAME_TGLBATASSKPD]" class="datepicker" data-dateformat="dd-mm-yy" id="TBLDAFTREKLAME_THNBATASSKPD">
+										</label>
+									</section>
+								</div>
+
+							<section>
+								<button type="button" class="btn btn-sm btn-info" onclick="cari()">
+									<i class="fa fa-search"></i>
+									Cari
+								</button>
+							</section>	
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>	
+	</div>
+</section>
+<!--  -->
+
+<section id="widget-grid-tetapan" style="display: none;" class="">
+	<div class="well well-sm well-light">
+		<div class="row">
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="jarviswidget jarviswidget-color-darken" id="wid-id-fsdfgs12441278"
+					data-widget-editbutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-sortable="false"
+					>
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2>Data Grid</h2>
+					</header>
+					<div>
+						<div class="jarviswidget-editbox">
+
+						</div>
+						<div class="widget-body no-padding">
+							<div class="widget-body-toolbar">
+								<button class="btn btn-sm btn-primary" onclick="tetapkan()" type="button">
+									<i class="fa fa-forward"></i> Proses
+								</button>
+							</div>
+							<div id="kontrol_table" style="overflow-y: auto;">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	</div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="modul-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					Form Pengukuhan Obyek
+				</h4>
+			</div>
+			<div class="modal-body no-padding">
+
+				<form id="form-data" class="smart-form">
+
+					<fieldset>
+
+						<section>
+							<div class="row">
+								<label class="label col col-10">Nama Obyek</label>
+								<div class="col col-4">
+									<label id="TSUBYEK_BUNAMAMERK"></label>
+								</div>
+							</div>
+						</section>
+
+						<section>
+							<div class="row">
+								<label class="label col col-4">Lokasi Obyek</label>
+								<div class="col col-10">
+									<label id="tblobyek_alamat"></label>
+									<!-- ,Kel. --> <label id="TBLKELURAHAN_NAMA"></label>, <!-- Kec. --> <label id="TBLKECAMATAN_NAMA"></label>
+								</div>
+							</div>
+						</section>
+
+						<section>
+							<div class="row">
+								<label class="label col col-10">Tanggal Pengukuhan Obyek</label>
+								<div class="col col-4">
+									<label class="input"> <i class="icon-append fa fa-calendar"></i>
+										<input class="datepicker" data-dateformat="dd-mm-yy" value="" type="text" name="param[TNPWPD_TGLKUKUH]" id="TNPWPD_TGLKUKUH">
+									</label>
+								</div>
+							</div>
+						</section>
+
+						<section>
+							<div class="row">
+								<label class="label col col-4">Nomor Pengukuhan Obyek</label>
+								<div class="col col-10">
+									<label class="input"> <i class="icon-append fa fa-square"></i>
+										<input readonly="" class="disabled" value="" type="text" name="param[TNPWPD_NOKUKUH]" id="TNPWPD_NOKUKUH" />
+									</label>
+								</div>
+							</div>
+						</section>
+
+					</fieldset>
+
+					<footer>
+						<div class="col col-12">
+							<label class="textarea">
+								<ol>
+									<?php /*<li>Petunjuk ...</li>*/ ?>
+								</ol>
+							</label>
+						</div>
+
+						<button id="btn-simpan" type="submit" class="btn btn-primary">
+							Kukuhkan Obyek
+						</button>
+						<button type="reset" class="btn btn-default" data-dismiss="modal">
+							Batal
+						</button>
+
+					</footer>
+				</form>
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div id="dialog-message" title="" align="center" style="width: 300px; display:none;">
+	<img id="loadinginfo" src="<?php echo Yii::app()->getBaseUrl(1) ?>/images/loader.gif" alt="memproses...">
+	<p>Mohon tunggu sampai proses transfer selesai</p>
+</div>
+
+<script type="text/javascript">
+	pageSetUp();
+
+	jQuery(document).ready(function($) {
+		// loadDataTable();
+		$("#dialog-message").dialog({
+			autoOpen : false,
+			modal : true,
+			title: "Mentransfer Data",
+		});
+	});
+
+	/*function loadDataTable() {
+		var param = {
+			cari_tblobyek_ispengukuhan : $("#cari_tblobyek_ispengukuhan").val()!=null ? $("#cari_tblobyek_ispengukuhan").val() : ""
+		};
+		var url_param = jQuery.param(param);
+		var totalRecords = <?php echo (int)$data['total_data'] ?>; // total no of records
+		var ajaxUrl = "pelayanan/verifikasi/DTJSON?"+url_param // url that fetches the data for the table
+		// drawTable($('#dt_basic_pipeline'), 1, totalRecords, ajaxUrl);  //Initializes the datatable
+		COLUMN  = [
+			{ "data": "TNPWPD_ID", "orderable": false, "render": function ( data, type, row, meta ) {
+				if (row.TNPWPD_ISKUKUH=="F") {
+				return '<button rel="tooltip" data-placement="right" data-original-title="Digunakan untuk menetapkan data pendataan"  class="btn btn-circle btn-warning btn-sm" onclick="pengukuhan(\''+row.TNPWPD_ID+'\')"><i class="fa fa-check"></i></button>'
+				} else {
+					return '<a rel="tooltip" data-placement="right" data-original-title="Digunakan untuk mencetak surat pengukuhan obyek pajak" target="_blank"  class="btn btn-circle btn-primary btn-sm" href="<?= Yii::app()->getBaseUrl(1); ?>/pelayanan/verifikasi/cetak/?id='+ btoa( row.TNPWPD_ID )+')"><i class="fa fa-print"></i></button>'
+					+ '<a rel="tooltip" data-placement="right" data-original-title="Digunakan untuk mencetak kartu NPWPD" target="_blank"  class="btn btn-circle bg-color-magenta txt-color-white btn-sm" href="<?= Yii::app()->getBaseUrl(1); ?>/pelayanan/verifikasi/cetakkartu?npwpd='+ btoa( row.TNPWPD_MILIKNAMA )+'&namawp='+ btoa( row.TNPWPD_MILIKNAMA )+'&alamatwp='+ btoa( row.TNPWPD_MILIKALAMAT )+'&tgltap='+ btoa( row.TNPWPD_TGLKUKUH )+'&jenispajak='+ btoa( row.TBLMASTERREKENING_NAMA )+')"><i class="fa fa-print"></i></button>'
+				}
+				;
+			 }
+			}
+			,{ "data": "num", "orderable": false }
+			,{ "data": "TNPWPD_MILIKNAMA", "orderable": false }
+			,{ "data": "TNPWPD_NPWPD" ,"orderable": false }
+			,{ "data": "TSUBYEK_BUNAMAMERK" ,"orderable": false }
+			,{ "data": "TNPWPD_MILIKALAMAT" ,"orderable": false }
+			,{ "data": "TBLKECAMATAN_NAMA" ,"orderable": false, "render": function ( data, type, row, meta ) {
+				keckel = row.TBLKELURAHAN_NAMA + ", " + row.TBLKECAMATAN_NAMA;
+				return keckel;
+			 }
+			}
+		];
+		ORDERS = [
+		[ 2, "asc" ]
+		];
+		drawTablePipeLine($('#dt_pipeline'), 1, totalRecords, ajaxUrl,COLUMN,ORDERS, pageSetUp);  //Initializes the datatable
+	}*/
+
+	/*form validation*/
+	loadScript("<?php echo ASSETS_URL; ?>/js/plugin/jquery-form/jquery-form.min.js", runFormValidation);
+	function runFormValidation() {
+		var $FormData = $("#form-data").validate({
+				// Rules for form validation
+				rules : {
+					"param[tblobyek_pengukuhantgl]" : {
+						required : true
+					}
+					,"param[tblobyek_pengukuhanno]" : {
+						required : true
+					}
+				},
+
+				// Messages for form validation
+				messages : {
+					"param[tblobyek_pengukuhantgl]" : {
+						required : "Mohon isikan tanggal pengukuhan"
+					}
+					,"param[tblobyek_pengukuhanno]" : {
+						required : "Mohon isikan nomor pengukuhan"
+					}
+				},
+
+				// Do not change code below
+				errorPlacement : function(error, element) {
+					error.insertAfter(element.parent());
+				},
+				submitHandler : function(form) {
+					// saat validasi benar semua, jalankan simpan()
+					return simpan();
+				}
+			});
+
+	};
+	/*//form validation*/
+	function loadDataTable() {
+		var param = {
+
+		};
+
+		$.ajax({
+			url: 'penetapan/pajak_reklame/cari',
+			type: 'POST',
+			data: $("#form-cari").serialize()+'&'+jQuery.param(param),
+		})
+		.done(function(respon) {
+			console.log("success");
+			$("#kontrol_table").html(respon);
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		
+	}
+
+	function cari() {
+		window.cari_tblobyek_ispengukuhan = $("#cari_tblobyek_ispengukuhan").val()!=null ? $("#cari_tblobyek_ispengukuhan").val() : "";
+		$("#widget-grid-tetapan").show();
+		$("html, body").animate({ scrollTop: $("#widget-grid-tetapan").offset().top-100 }, "slow");
+		loadDataTable();
+	}
+
+	function tetapkan() {
+		arridPajak = [];
+
+		$("input[name='nopokPajak']:checked").each(function() {
+			arridPajak.push(this.value);
+		});
+
+		count = 0;
+		for(x in arridPajak) {
+			count++;
+		}
+
+		if (count>0) {
+			daftaridPajak = arridPajak.toString();
+
+			$.SmartMessageBox({
+			title : "Konfirmasi", // judul Smart Alert
+			content : "Apakah anda yakin akan menetapkan data terpilih?", // konten dari smart alert
+			buttons : '[Tidak][Ya]' // pengaturan tombol
+		}, function(ButtonPressed) {
+			if (ButtonPressed === "Ya") {
+				$.ajax({
+					url: 'penetapan/pajak_reklame/TetapkanPajak',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						 listPajak: daftaridPajak
+						,TBLDAFTREKLAME_THNPAJAK: $('#TBLDAFTREKLAME_THNPAJAK').val()
+						,TBLDAFTREKLAME_BLNPAJAK: $('#TBLDAFTREKLAME_BLNPAJAK').val()
+						,TBLDAFTREKLAME_TGLSKPD: $('#TBLDAFTREKLAME_TGLSKPD').val()
+						,TBLDAFTREKLAME_TGLBATASSKPD: $('#TBLDAFTREKLAME_TGLBATASSKPD').val()
+					},
+					beforeSend: function() {
+						loadingTransfer('open');
+						// $("#dialog-message").modal('show');
+					},
+					success: function(respon) {
+						setTimeout(function() {
+							loadingTransfer('close');
+							// $("#dialog-message").modal('hide');
+							cari();
+						}, 500);
+						notifikasi('Sukses','Data berhasil di tetapkan','success',1,0);
+					}
+				});
+			}
+		});
+
+		} else {
+			notifikasi('Informasi','Mohon pilih Data yg akan di transfer ke Penetapan, dengan mencentang Data.','fail',1,0)
+		}
+
+		return false;
+	}
+
+	function loadingTransfer(ev) {
+		/*ev{open|close}*/
+		$('#dialog-message').dialog(ev);
+		$(".ui-dialog-titlebar-close").hide();
+	}
+
+</script>
+<style type="text/css">
+	.disabled {
+		background: #ddd !important;
+	}
+</style>

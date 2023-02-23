@@ -1,0 +1,32 @@
+<div class="section secondary-section" id="faq">
+    <div class="triangle"></div>
+    <div class="container">
+        <div class="title">
+            <h1>Pertanyaan-pertanyaan Seputar Perizinan Online</h1>
+            <div class="text-divider1"></div>                        
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/faq.jpg" width="100%">
+        </div><br>
+        <div id="accordion2" class="accordion">
+        <div class="row-fluid" class="accordion in collapse" style="margin-bottom: 90px;">
+            <div class="panel panel-default">
+                <?php $no=1; foreach ($data_faq as $faq): ?>
+                    <div class="panel-heading" id="headingOne">
+                        <h4 class="panel-title txt-color-white">
+                            <a href="#collapseOne" data-toggle="collapse" data-parent="#accordion" data-target="#collapse<?php echo $faq[tblfaq_id] ?>">
+                              <?php echo $no++;?>. <?php echo $faq[tblfaq_pertanyaan]; ?>
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse<?php echo $faq[tblfaq_id] ?>" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <lu>
+                                <li><?php echo $faq[tblfaq_jawaban]; ?></li>
+                            </lu>
+                        </div>
+                    </div>
+                <?php endforeach ?>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

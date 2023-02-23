@@ -1,0 +1,525 @@
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="well well-sm well-light bg-color-greenLight txt-color-white">
+				<h4><i class="fa fa-file-text-o"></i> Angsuran - Pajak Hotel </h4>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- widget grid -->
+	<div class="well">
+		<section id="widget-grid" class="" >
+
+			<!-- row -->
+			<div class="row">
+
+
+				<!-- NEW WIDGET START -->
+				<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+					<!-- Widget ID (each widget will need unique ID)-->
+					<div class="jarviswidget jarviswidget-color-teal" id="wid-id-kiorsshotel" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false">
+						<header>
+							<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+							<h2>Data</h2>
+						</header>
+
+						<!-- widget div-->
+						<div>
+
+							<!-- widget edit box -->
+							<div class="jarviswidget-editbox">
+								<!-- This area used as dropdown edit box -->
+
+							</div>
+							<!-- end widget edit box -->
+
+							<!-- widget content -->
+							<div class="widget-body no-padding">
+								<form id="form_angsuran_pajakhotel" class="smart-form" novalidate="">
+									<br><fieldset>
+									<div class="row">
+										<section class="col col-md-2" style="margin-left: 2%;">Nomor Pokok WP</section>
+										<section class="col col-md-4">
+											<label class="input">
+												<input class="form-control" type="text" id="TBLDAFTAR_NOPOK" name="TBLDAFTAR_NOPOK">
+											</label>
+										</section>
+										<section class="col col-md-4">
+											<h4 align="left">Entry Penetapan Angsuran Pajak Hotel</h4>
+										</section>
+									</div>
+
+									<div class="row">		
+										<section class="col col-md-2" style="margin-left: 2%;">Tanggal Pemeriksaan</section>
+										<section class="col col-md-2">
+											<label class="select">
+												<label class="input">
+													<input type="number" value="<?php echo date('Y'); ?>" class="form-control" type="text" id="TBLPENDATAAN_THNPAJAK" name="TBLPENDATAAN_THNPAJAK">
+												</label>
+											</label>
+										</section>
+										<section class="col col-md-2">
+											<label class="select">
+												<select class="select2" id="TBLPENDATAAN_BLNPAJAK" name="TBLPENDATAAN_BLNPAJAK">
+													<option value="01">Januari</option>
+													<option value="02">Februari</option>
+													<option value="03">Maret</option>
+													<option value="04">April</option>
+													<option value="05">Mei</option>
+													<option value="06">Juni</option>
+													<option value="07">Juli</option>
+													<option value="08">Agustus</option>
+													<option value="09">September</option>
+													<option value="10">Oktober</option>
+													<option value="11">November</option>
+													<option value="12">Desember</option>
+												</select>
+											</label>
+										</section>
+									<?php /*<section class="col col-md-1">
+										<label class="checkbox pull-right">
+											<input type="checkbox" name="is_tanggal" id="is_tanggal">
+											<i></i>
+										</label>
+									</section>
+									<section class="col col-md-2">
+										<label class="select">
+											<select class="select2" id="TBLPENDATAAN_TGLPAJAK" name="TBLPENDATAAN_TGLPAJAK">
+												<?php for ($i=1; $i <32 ; $i++) {  ?>
+												<?php if ($i==date('d')): ?>
+													<option selected="selected" value="<?php echo $i; ?>"><?php echo $i; ?></option>
+												<?php else: ?>
+													<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+												<?php endif ?>
+												<?php } ?>
+											</select>
+										</label>
+									</section>*/ ?>
+									
+									<section class="col col-md-1">
+										<button type="button" class="btn btn-sm btn-primary" onclick="cari()">Enter</button>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Rekening</section>
+									<section class="col col-md-4">
+										<label class="select">
+											<select class="select2" id="no_subrek" name="no_subrek" disabled="disabled">
+												<option value="">== Silahkan Pilih Rekening ==</option>
+												<?php foreach ($data['rek'] as $combo_subrek): ?>
+													<option value="<?php echo $combo_subrek['TBLREKENING_KODE']; ?>">[<?php echo $combo_subrek['TBLREKENING_KODEFULL']; ?>] <?php echo $combo_subrek['TBLREKENING_NAMAREKENING']; ?></option>
+												<?php endforeach ?>
+											</select>
+										</label>
+									</section>
+								</div>
+								<hr><br>
+								<div class="row">
+									<section class="col col-md-12"><h4 align="center">Data Perhitungan</h4></section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">NPWPD</section>
+
+									<section class="col col-md-2">
+										<span id="TBLDAFTAR_NPWPD"></span>
+									</section>		
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Nama Wajib Pajak</section>
+									<section class="col col-md-2">
+										<span id="TBLDAFTAR_BADANUSAHANAMA"></span>
+									</section>
+									<section class="col col-md-2">Tanggal SKPDKB</section>
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" disabled="disabled" name="tgl_pemeriksaan" class="datepicker" data-dateformat="dd-mm-yy" id="tgl_pemeriksaan" style="
+											background-color: beige;
+											">
+										</label>
+									</section>	
+								</div>
+
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Alamat Wajib Pajak</section>	
+									<section class="col col-md-2">
+										<span id="TBLDAFTAR_BADANUSAHAALAMAT"></span>
+									</section>
+									<section class="col col-md-2">Total SKPDKB</section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="form-control" disabled="disabled" type="text" id="TBLDAFTHOTEL_RUPIAHKRGBAYAR" name="TBLDAFTHOTEL_RUPIAHKRGBAYAR" style="
+											background-color: beige;
+											">
+										</label>
+									</section>	
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">No SKPDKB </section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="form-control" disabled="disabled" type="text" id="TBLDAFTHOTEL_REGKURANGBAYAR" name="TBLDAFTHOTEL_REGKURANGBAYAR" style="
+											background-color: beige;
+											">
+										</label>
+									</section>
+									<section class="col col-md-2">Bunga Tambahan</section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="form-control" disabled="disabled" type="text" id="dendasetor" name="dendasetor" style="
+											background-color: beige;
+											">
+										</label>
+									</section>
+
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Tanggal Batas SKPDKB </section>
+
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" disabled="disabled" name="tgl_batas" class="datepicker" data-dateformat="dd-mm-yy" id="tgl_batas" style="
+											background-color: beige;
+											">
+										</label>
+									</section>
+									<section class="col col-md-2">Total Pokok Angsuran</section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="form-control" disabled="disabled" type="text" id="pokok_angsuran" name="pokok_angsuran" style="
+											background-color: beige;
+											">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Masa Pajak Awal</section>
+									<section class="col col-md-2">
+										<label class="select" >
+											<select class="select2" name="TBLDAFTHOTEL_BLNKBAWAL" id="TBLDAFTHOTEL_BLNKBAWAL" disabled="disabled">
+												<option value="0">== Silahkan Pilih ==</option>
+												<option value="1">Januari</option>
+												<option value="2">Februari</option>
+												<option value="3">Maret</option>
+												<option value="4">April</option>
+												<option value="5">Mei</option>
+												<option value="6">Juni</option>
+												<option value="7">Juli</option>
+												<option value="8">Agustus</option>
+												<option value="9">September</option>
+												<option value="10">Oktober</option>
+												<option value="11">November</option>
+												<option value="12">Desember</option>
+											</select> <i></i> 
+										</label>
+									</section>
+									<section class="col col-md-2">Masa Pajak Akhir</section>
+									<section class="col col-md-2">
+										<label class="select" >
+											<select class="select2" name="TBLDAFTHOTEL_BLNKBAKHIR" id="TBLDAFTHOTEL_BLNKBAKHIR" disabled="disabled">
+												<option value="0">== Silahkan Pilih ==</option>
+												<option value="1">Januari</option>
+												<option value="2">Februari</option>
+												<option value="3">Maret</option>
+												<option value="4">April</option>
+												<option value="5">Mei</option>
+												<option value="6">Juni</option>
+												<option value="7">Juli</option>
+												<option value="8">Agustus</option>
+												<option value="9">September</option>
+												<option value="10">Oktober</option>
+												<option value="11">November</option>
+												<option value="12">Desember</option>
+											</select> <i></i> 
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Tanggal Entry </section>
+
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" name="tgl_entri" class="datepicker" value="<?php echo date('d-m-Y') ?>" data-dateformat="dd-mm-yy" id="tgl_entri" style="">
+										</label>
+									</section>
+									<section class="col col-md-2">Tanggal Surat Pengajuan Permohonan</section>
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" name="tgl_surat_pengajuan" class="datepicker" data-dateformat="dd-mm-yy" id="tgl_surat_pengajuan" style="">
+										</label>
+									</section>
+								</div>
+								<div class="row">		
+									<section class="col col-md-2" style="margin-left: 2%;">Tanggal Batas</section>
+									<section class="col col-md-2">
+										<label class="input"> <i class="icon-append fa fa-calendar"></i>
+											<input type="text" name="tanggal_batas" class="datepicker" data-dateformat="dd-mm-yy" id="tanggal_batas">
+										</label>
+									</section>
+									<section class="col col-md-3" style="display: none"> 
+										<label class="checkbox state-success"><input type="checkbox" name="checkbox"><i></i>Tanpa Bunga</label>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-md-2" style="margin-left: 2%;">Diangsur</section>
+									<section class="col col-md-2">
+										<label class="input">
+											<input class="form-control" type="text" id="nmr_skpdkb" name="nmr_skpdkb">
+										</label>
+									</section>
+									<section class="col col-md-1">
+										<button class="btn btn-sm btn-primary">&lt;&lt; Hitung Angsuran</button>
+									</section>
+								</div>
+
+							</fieldset>
+							<footer>
+								<div id="tbl_simpan">
+										<!-- <button type="submit" class="btn btn-sm btn-primary">
+											<i class="fa fa-save"></i>&nbsp;Simpan
+										</button> -->
+
+										<button type="submit" class="btn btn-sm btn-success">
+											<i class="fa fa-print"></i>&nbsp;Cetak Ketetapan Angsuran
+										</button>
+
+										<button type="submit" class="btn btn-sm btn-warning">
+											<i class="fa fa-print"></i>&nbsp;Cetak Perijinan Angsuran
+										</button>
+
+										<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+											<i class="fa fa-ban"></i>	Keluar
+										</button>
+									</div>
+								</footer>
+							</form>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+	</section>
+	<section id="widget-grid" class="">
+		<div class="row">   
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">   
+				<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-scsdaa3" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2>Data</h2>
+					</header>     
+					<div>       
+						<div class="jarviswidget-editbox">          
+						</div>                
+						<div class="widget-body no-padding">
+							<table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+								<thead>
+									<tr>      
+										<th class="text-align-center">No</th>
+										<th data-class="expand" class="text-align-center">Angsuran Ke</th>
+										<th data-hide="phone, tablet" class="text-align-center">Tahun Batas SKP</th>
+										<th data-hide="phone, tablet" class="text-align-center">BLBSKP</th> 
+										<th data-hide="phone, tablet" class="text-align-center">HRBSKP</th> 
+										<th data-hide="phone, tablet" class="text-align-center">RPSKP </th>  
+										<th data-hide="phone" class="text-align-center">Bunga </th>  
+										<th data-hide="phone" class="text-align-center">Angsuran</th>       
+									</tr>
+								</thead>
+								<tbody> 
+									<tr>
+										<td>&nbsp;</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>           
+						</div>
+					</div>        
+				</div>      
+			</div>    
+		</article>   
+	</div>
+</section>
+</div>
+<!-- end widget grid -->
+
+<script type="text/javascript">
+	pageSetUp();
+
+	loadScript("<?php echo Yii::app()->getBaseUrl(1) ?>/themes/smartadmin/js/plugin/devbridgeAutocomplete/jquery.autocomplete.min.js", function(){
+		generateAutocompleteWPHotel();
+	});
+
+	function generateAutocompleteWPHotel() {
+		$('#TBLDAFTAR_NOPOK').autocomplete({
+			serviceUrl: 'penetapan/angsuran_hotel/autocompletewphotel',
+
+			onSelect: function (suggestion) {
+		        //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+		        window.id = suggestion.data;
+		        window.nopokok = suggestion.TNPWPD_NOPOK;
+		        window.nama = suggestion.TNPWPD_MILIKNAMA;
+		        window.alamat = suggestion.TNPWPD_MILIKALAMAT;
+		        $(this).val(suggestion.value);
+		        $('#TBLDAFTAR_NOPOK').val(suggestion.value.split(' | ')[0]);
+
+		    }
+		    ,showNoSuggestionNotice : true
+		    ,noCache : true
+		    ,noSuggestionNotice : "Tidak ditemukan hasil"
+		});
+	}
+
+	jQuery(document).ready(function($) {
+		reloadDT('dt_basic');
+	});
+
+	function cari () {
+		var CARI_NOPOK = $('#TBLDAFTAR_NOPOK').val();
+		var BULAN = $('#TBLPENDATAAN_BLNPAJAK').select2('val');
+		var TAHUN = $('#TBLPENDATAAN_THNPAJAK').val();
+			//var TANGGAL = $('#TBLPENDATAAN_TGLPAJAK').val();
+
+			// getNoSKPDKB(TAHUN);
+
+			// if (CARI_NOPOK=='') {
+			// 	notifikasi('Informasi','Mohon isikan No Pokok WP','failed',1,0);
+			// }else if(TAHUN==''){
+			// 	notifikasi('Informasi','Mohon isikan Tahun','failed',1,0);
+			// }else if(BULAN==''){
+			// 	notifikasi('Informasi','Mohon isikan Bulan','failed',1,0);
+			// }else{
+				$.ajax({
+					url: 'penetapan/angsuran_hotel/getdata',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						TBLDAFTAR_NOPOK : CARI_NOPOK,
+						bulan : $('#TBLPENDATAAN_BLNPAJAK').select2('val'),
+						tahun : $('#TBLPENDATAAN_THNPAJAK').val()
+					},
+					success: function(respon) {
+						// if (respon.data=='sudah entri') {
+
+							// $.SmartMessageBox({
+							// 	title : "Informasi", // judul Smart Alert
+							// 	content : "Data dengan Nomor Pokok "+CARI_NOPOK+", Masa Pajak "+ $('#TBLPENDATAAN_BLNPAJAK').select2('val')+" "+$('#TBLPENDATAAN_THNPAJAK').val()+" sudah pernah mendaftar. <br> Apakah anda ingin mengubah data ini?", // konten dari smart alert
+							// 	buttons : '[Tidak][Ya]' // pengaturan tombol
+							// 	}, function(ButtonPressed) {
+							// 		if (ButtonPressed === "Ya") {
+								$('#TBLDAFTAR_BADANUSAHANAMA').html(respon.TBLDAFTAR_BADANUSAHANAMA);
+								$('#TBLDAFTAR_BADANUSAHAALAMAT').html(respon.TBLDAFTAR_BADANUSAHAALAMAT);
+
+								$('#TBLDAFTAR_NPWPD').html(respon.TBLDAFTAR_JENISPENDAPATAN +'.'+ respon.TBLDAFTAR_GOLONGAN +'.'+ respon.TBLDAFTAR_NOPOK +'.'+ respon.TBLKECAMATAN_IDBADANUSAHA +'.'+ respon.TBLKELURAHAN_IDBADANUSAHA);
+
+								$('#nama_subrekening').val(respon.TREKENING_NAMA);
+								$('#no_subrek').select2('val',respon.REKENING_KODE);
+								$('#hit_jumlahhari').val(respon.JUMLAH_HARI);
+								$('#form_perhitungan').show('fast');
+								$('#form_dokumentasi_tanggal').show('fast');
+								$('#persen_pajak').val(respon.TREKENING_TARIF);
+								$('#kecamatan_pajak').val(respon.TBLKECAMATAN_ID);
+								$('#kelurahan_pajak').val(respon.TBLKELURAHAN_ID);
+								$('#tarif_rekening').val(respon.TREKENING_TARIF);
+								$('#res_jumlah_pajak_tetap_wp').val(respon.TBLDAFTHOTEL_PAJAK);
+								$('#res_jumlah_pajak_setor_wp').val(respon.TBLDAFTHOTEL_PAJAK);
+								$('#TBLDAFTHOTEL_REGKURANGBAYAR').val(respon.TBLDAFTHOTEL_REGKURANGBAYAR);
+								$('#TBLDAFTHOTEL_PAJAKPERIKSA').val(respon.TBLDAFTHOTEL_PAJAKPERIKSA);
+								$('#TBLDAFTHOTEL_BUNGAKRGBAYAR').val(respon.TBLDAFTHOTEL_BUNGAKRGBAYAR);
+								$('#TBLDAFTHOTEL_KENAIKANKRGBAYAR').val(respon.TBLDAFTHOTEL_KENAIKANKRGBAYAR);
+								$('#TBLDAFTHOTEL_DENDAKRGBAYAR').val(respon.TBLDAFTHOTEL_DENDAKRGBAYAR);
+								$('#TBLDAFTHOTEL_RUPIAHKRGBAYAR').val(respon.TBLDAFTHOTEL_RUPIAHKRGBAYAR);
+								$('#TBLDAFTHOTEL_BLNKBAWAL').select2('val',respon.TBLDAFTHOTEL_BLNKBAWAL);
+								$('#TBLDAFTHOTEL_BLNKBAKHIR').select2('val',respon.TBLDAFTHOTEL_BLNKBAKHIR);
+								$('#TBLDAFTHOTEL_NOMORPERIKSA').val(respon.TBLDAFTHOTEL_NOMORPERIKSA);
+								$('#tgl_pemeriksaan').val(respon.TBLDAFTHOTEL_TGLKURANGBAYAR +'-'+ respon.TBLDAFTHOTEL_BLNKURANGBAYAR +'-20'+respon.TBLDAFTHOTEL_THNKURANGBAYAR);
+								$('#tgl_batas').val(respon.TBLDAFTHOTEL_TGLBTSKRGBAYAR +'-'+ respon.TBLDAFTHOTEL_BLNBTSKRGBAYAR +'-20'+ respon.TBLDAFTHOTEL_THNBTSKRGBAYAR);
+								window.BULAN_DENDA = respon.BULAN_DENDA;
+								window.PERSEN_DENDA = respon.PERSEN_DENDA;
+								$('#footer-hotel').show('fast');
+								setPriceFormat();
+								setTimeout(function() {
+									hitungDenda2();
+								}, 10);
+							}
+						});
+}
+
+function hitungDenda2() {
+
+	tglbts = $('#tgl_batas').val();
+	tglhitdenda = $('#tgl_entri').val();
+	pokok = Number(toAngka($('#TBLDAFTHOTEL_RUPIAHKRGBAYAR').val()));
+
+	var parts = tglbts.split("-");
+
+	dd = parts[0]; 
+	mm = parts[1]; 
+	yyyy = parts[2];
+
+	tglbatas = yyyy+'-'+mm+'-'+dd;
+
+	var parts = tglhitdenda.split("-");
+
+	dd = parts[0]; 
+	mm = parts[1]; 
+	yyyy = parts[2];
+
+	tglhitungdenda = yyyy+'-'+mm+'-'+dd;
+
+	jmlbulandenda = getBulanDenda(tglbatas,tglhitungdenda);
+
+	totaldenda = pokok*jmlbulandenda*2/100;
+	totalsetoranpajak = pokok + totaldenda;
+
+	$('#dendasetor').val(toRp(totaldenda));
+	setTimeout(function() {
+		hitungTotal();
+	}, 10);
+
+}
+
+function hitungTotal() {
+
+	tglbts = $('#tgl_batas').val();
+	tglhitdenda = $('#tgl_entri').val();
+	pokok = Number(toAngka($('#TBLDAFTHOTEL_RUPIAHKRGBAYAR').val()));
+
+	var parts = tglbts.split("-");
+
+	dd = parts[0]; 
+	mm = parts[1]; 
+	yyyy = parts[2];
+
+	tglbatas = yyyy+'-'+mm+'-'+dd;
+
+	var parts = tglhitdenda.split("-");
+
+	dd = parts[0]; 
+	mm = parts[1]; 
+	yyyy = parts[2];
+
+	tglhitungdenda = yyyy+'-'+mm+'-'+dd;
+
+	jmlbulandenda = getBulanDenda(tglbatas,tglhitungdenda);
+
+	totaldenda = pokok*jmlbulandenda*2/100;
+	totalsetoranpajak = pokok + totaldenda;
+	$('#pokok_angsuran').val(toRp(totalsetoranpajak));
+
+}
+
+</script>
